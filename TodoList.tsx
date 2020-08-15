@@ -2,20 +2,9 @@ import React from "react";
 
 
 
-type Task = {
-  task: String;
-  id: number;
-
-}
-
-type Store = {
-  tasks: readonly Store[];
-  addTask: (task: string) => Promise<string>;
-  deleteTask: (id: number) => void;
-  
+import {Store} from "./logic"
 
 
-}
 
 
 
