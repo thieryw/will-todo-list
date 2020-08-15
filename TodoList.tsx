@@ -40,10 +40,12 @@ namespace TaskInput {
 
     export type State = {
         text: string;
+        loadingText: string;
     };
 
     export type Props = {
       updateTasks: (store: Store) => void;
+    
     };
 
 }
@@ -52,8 +54,13 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
 
     constructor(props: TaskInput.Props) {
         super(props);
-        this.state = { "text": "" };
+        this.state = { 
+          "text": "" , 
+          "loadingText": ""
+          };
     }
+
+    
 
     private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ "text": e.target.value })
@@ -63,21 +70,32 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
         e.preventDefault();
 
         const text = this.state.text;
+        this.setState({
+          "loadingText": "loading"
+        })
 
 
         storePr.then(
           store => {
             store.addTask(text);
             this.props.updateTasks(store);
+            this.setState({
+              "loadingText": ""
+            })
+          
             
-            console.log(store.tasks);
+            
+            
           }
         )
         this.setState({ "text": "" });
         
     };
 
-    render = () => (
+    render = () => {
+      
+      return (
+      
         <form onSubmit={this.handleSubmit}>
             <legend>add to list</legend>
             <input
@@ -86,28 +104,31 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
                 onChange={this.handleChange}
             />
             <input type="submit" value="submit" />
+            <p>{this.state.loadingText}</p>
         </form>
-    );
+      )
+    };
 
 }
+
+
+
+
 
 namespace Tasks{
   export type Props = {
     store: Store;
-    removeTask: (index: number) => void;
-        
+    deleteTask: (index: number)=>void;
+    
   }
 }
 
-
 class Tasks extends React.Component<Tasks.Props>{
 
-
-  private index = 0;
-
-  private handleClick(index: number){
-    this.props.removeTask(index);
-    this.index = 0;
+  private handleDelete(index){
+  
+    this.props.deleteTask(index);
+   
   }
 
   render = ()=>{
@@ -117,14 +138,11 @@ class Tasks extends React.Component<Tasks.Props>{
         {
     
           this.props.store === undefined ? 
-          <li>loading</li> : 
-          this.props.store.tasks.map(cur => {
-            this.index++;
-            const element = (<li onClick={() => this.handleClick(this.index)}>{cur} {this.index}</li>);
+          <div></div> : 
+          this.props.store.tasks.map(
+            (cur, index) => <li key={index}>{cur} <p onClick={()=> this.handleDelete(index)}>X</p></li>
+            )
             
-            return element;
-            })
-          
           
         }
 
@@ -137,6 +155,7 @@ class Tasks extends React.Component<Tasks.Props>{
 namespace TodoList{
   export type State = {
     store: Store;
+    
   }
 }
 export class TodoList extends React.Component<{}, TodoList.State>{
@@ -145,7 +164,9 @@ export class TodoList extends React.Component<{}, TodoList.State>{
     super(props);
 
     this.state = {
-      "store": undefined
+      "store": undefined,
+      
+
     }
 
    
@@ -157,21 +178,25 @@ export class TodoList extends React.Component<{}, TodoList.State>{
       })
   }
 
-  private removeTask = index=>{
-    let store = this.state.store;
+  private deleteTask = index => {
+
+    const store = this.state.store;
     store.removeTask(index);
     this.setState({
-      "store": store
+      store
     })
+    
   }
 
 
-  
+
   render = ()=>{
+    
     return(
       <div>
         <TaskInput updateTasks={this.updateTasks}/>
-        <Tasks store={this.state.store} removeTask={this.removeTask}/>
+        <Tasks store={this.state.store} deleteTask={this.deleteTask}/>
+        
       </div>
     )
   }

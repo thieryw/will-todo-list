@@ -1,3 +1,34 @@
 h1, p {
   font-family: Lato;
 }
+
+ul li p{
+  display: inline;
+  position: absolute;
+  right: 5px;
+  top: -10px;
+
+  
+
+}
+
+ul li p:hover{
+  cursor: pointer;
+}
+
+ul li{
+  position: relative;
+  
+  background-color: grey;
+  margin-bottom: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  
+  width: 400px;
+
+}
+
+ul{
+  list-style-type: none;
+}
