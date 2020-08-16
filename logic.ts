@@ -17,13 +17,7 @@ export type Store = {
   completeOrUncompleteTask: (id: number) => void;
   deleteAllTasks: ()=>void;
   
-  
-
-
 }
-
-
-
 
 export async function getStore(): Promise<Store>{
   const createDelay = (delay: number) => {
@@ -41,8 +35,6 @@ export async function getStore(): Promise<Store>{
 
     "addTask": async task =>{
       
-      
-
       const newTask: Task = {
         task,
         "id": index++,
@@ -50,14 +42,10 @@ export async function getStore(): Promise<Store>{
       }
 
       tasks.push(newTask);
-
-      
-
-
     },
+    
     "deleteTask": id=>{
       
-
       tasks.map((cur, index)=> {
         if(cur.id === id){
           tasks.splice(index, 1);
@@ -80,10 +68,8 @@ export async function getStore(): Promise<Store>{
 
   }
 
-  
-
   return store;
 }
 
-
+export const storePr = getStore();
 
