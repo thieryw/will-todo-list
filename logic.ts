@@ -4,6 +4,7 @@
 export type Task = {
   task: String;
   id: number;
+  isCompleted: boolean;
 
 }
 
@@ -12,7 +13,8 @@ export type Store = {
   readonly tasks: readonly Task[];
   addTask: (task: string) => void;
   deleteTask: (id: number) => void;
-
+  completeOrUncompleteTask: (id: number) => void;
+  
   
 
 
@@ -41,7 +43,8 @@ export async function getStore(): Promise<Store>{
 
       const newTask: Task = {
         task,
-        "id": index++
+        "id": index++,
+        "isCompleted": false
       }
 
       tasks.push(newTask);
@@ -59,8 +62,19 @@ export async function getStore(): Promise<Store>{
         }
       })
 
+    },
+
+    "completeOrUncompleteTask": id=>{
+      tasks.map((cur, index)=>{
+        if(cur.id === id){
+          cur.isCompleted = !cur.isCompleted;
+        }
+      })
     }
+
   }
+
+  
 
   return store;
 }

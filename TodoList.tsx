@@ -80,7 +80,7 @@ class Tasks extends React.Component<Tasks.Props>{
         {this.props.store === undefined ? "loading" :
           this.props.store.tasks.map(
             (cur, index) => {
-              return <li>{cur.task}</li>
+              return <li className={cur.is}>{cur.task}</li>
               
               
             }
