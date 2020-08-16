@@ -1,7 +1,7 @@
 
 
 
-type Task = {
+export type Task = {
   task: String;
   id: number;
 
@@ -10,7 +10,7 @@ type Task = {
 export type Store = {
   
   readonly tasks: readonly Task[];
-  addTask: (task: string) => void;
+  addTask: (task: string) => Promise<Task>;
   deleteTask: (id: number) => void;
 
   
@@ -35,13 +35,18 @@ export async function getStore(): Promise<Store>{
   const store: Store = {
     tasks,
 
-    "addTask": task =>{
+    "addTask": async task =>{
       
+      await createDelay(400);
 
-      tasks.push({
+      const newTask: Task = {
         task,
         "id": index++
-      })
+      }
+
+      tasks.push(newTask);
+
+      return newTask;
 
 
     },

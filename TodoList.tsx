@@ -2,7 +2,7 @@ import React from "react";
 
 
 
-import {Store, getStore} from "./logic";
+import {Store, getStore, Task} from "./logic";
 
 
 
@@ -14,7 +14,7 @@ namespace TaskInput{
   }
 
   export type Props = {
-    addTast: (store: Store)=>void;
+    addTast: (store: Task)=>void;
   }
 }
 
@@ -40,9 +40,14 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
 
     storePr.then(
       store => {
-        store.addTask(this.state.task);
+        store.addTask(this.state.task).then(
+          task =>{
+              this.props.addTast(task);
+          }
 
-        this.props.addTast(store);
+        )
+
+      
 
         console.log(store.tasks);
         
@@ -68,7 +73,7 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
 
 namespace Tasks{
   export type Props = {
-    store: Store
+    store: Tasks
   }
 }
 
@@ -82,8 +87,8 @@ class Tasks extends React.Component<Tasks.Props>{
         {this.props.store === undefined ? "loading" :
           this.props.store.tasks.map(
             (cur, index) => {
-              <li>{cur.task}</li>
-              alert(cur.task);
+              return <li>{cur.task}</li>
+              
               
             }
           )
@@ -97,7 +102,7 @@ class Tasks extends React.Component<Tasks.Props>{
 
 namespace TodoList{
   export type State = {
-    store: Store;
+    task: Tasks;
   }
 }
 
@@ -106,14 +111,14 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   constructor(props: {}){
     super(props);
     this.state = {
-      "store": undefined
+      "task": ""
     }
   }
 
 
-  private addTask = (store: Store)=>{
+  private addTask = (store: Tasks)=>{
     this.setState({
-      store
+      s
     })
 
     
