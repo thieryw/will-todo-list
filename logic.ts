@@ -10,8 +10,8 @@ type Task = {
 export type Store = {
   
   readonly tasks: readonly Task[];
-  addTask: (task: string) => Promise<void>;
-  deleteTask: (id: number) => Promise<void>;
+  addTask: (task: string) => void;
+  deleteTask: (id: number) => void;
 
   
 
@@ -35,8 +35,8 @@ export async function getStore(): Promise<Store>{
   const store: Store = {
     tasks,
 
-    "addTask": async task =>{
-      await createDelay(700);
+    "addTask": task =>{
+      
 
       tasks.push({
         task,
@@ -45,8 +45,8 @@ export async function getStore(): Promise<Store>{
 
 
     },
-    "deleteTask": async id=>{
-      await createDelay(700);
+    "deleteTask": id=>{
+      
 
       tasks.map((cur, index)=> {
         if(cur.id === id){
