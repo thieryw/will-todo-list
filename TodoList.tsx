@@ -14,7 +14,7 @@ namespace TaskInput{
   }
 
   export type Props = {
-    addTast: (store: Task)=>void;
+    addTast: (store: Store)=>void;
   }
 }
 
@@ -40,16 +40,9 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
 
     storePr.then(
       store => {
-        store.addTask(this.state.task).then(
-          task =>{
-              this.props.addTast(task);
-          }
 
-        )
-
-      
-
-        console.log(store.tasks);
+        store.addTask(this.state.task);
+        this.props.addTast(store);
         
         this.setState({
           "task": ""
@@ -73,7 +66,7 @@ class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>{
 
 namespace Tasks{
   export type Props = {
-    store: Tasks
+    store: Store
   }
 }
 
@@ -102,7 +95,7 @@ class Tasks extends React.Component<Tasks.Props>{
 
 namespace TodoList{
   export type State = {
-    task: Tasks;
+    store: Store;
   }
 }
 
@@ -111,14 +104,14 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   constructor(props: {}){
     super(props);
     this.state = {
-      "task": ""
+      "store": undefined
     }
   }
 
 
-  private addTask = (store: Tasks)=>{
+  private addTask = (store: Store)=>{
     this.setState({
-      s
+      store
     })
 
     
