@@ -10,8 +10,8 @@ type Task = {
 export type Store = {
   
   readonly tasks: readonly Task[];
-  addTask: (task: string) => void;
-  deleteTask: (id: number) => void;
+  addTask: (task: string) => Promise<void>;
+  deleteTask: (id: number) => Promise<void>;
 
   
 
