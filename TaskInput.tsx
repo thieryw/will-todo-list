@@ -46,7 +46,7 @@ export class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>
         this.props.addTast(store);
         
         this.setState({
-          "task": "",
+          
           "loadingMsg": ""
         })
       }
@@ -54,6 +54,7 @@ export class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>
 
     this.setState({
       "loadingMsg": "loading",
+      "task": ""
       
     })
     
