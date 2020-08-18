@@ -44,7 +44,7 @@ export class Tasks extends React.Component<Tasks.Props>{
             this.props.store.tasks.map(
               (cur, index) => {
                 return <li className={cur.isCompleted ? "complete": "notComplete"}>
-                <input type="checkbox" onClick={()=> this.handleCheckBox(cur.id)}/>
+                <input type="checkbox" checked={cur.isCompleted} onClick={()=> this.handleCheckBox(cur.id)}/>
                 {cur.task}
                 <p onClick={()=> this.handleDelete(cur.id)}>X</p>
                 </li>

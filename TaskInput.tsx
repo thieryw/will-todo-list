@@ -37,9 +37,7 @@ export class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>
   private handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
 
-    this.setState({
-      "loadingMsg": "loading"
-    })
+ 
 
     storePr.then(
       store => {
@@ -54,6 +52,10 @@ export class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>
       }
     )
 
+    this.setState({
+      "loadingMsg": "loading",
+      
+    })
     
   }
 
