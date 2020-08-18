@@ -37,12 +37,12 @@ export class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>
   private handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
 
- 
+    const task = this.state.task;
 
     storePr.then(
       store => {
 
-        store.addTask(this.state.task);
+        store.addTask(task);
         this.props.addTast(store);
         
         this.setState({
