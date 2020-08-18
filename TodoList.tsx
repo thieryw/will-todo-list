@@ -3,7 +3,7 @@ import React from "react";
 import {Tasks} from "./Tasks";
 import {TaskInput} from "./TaskInput";
 
-import {Store, getStore, Task} from "./logic";
+import {Store, getStore} from "./logic";
 
 
 
@@ -33,6 +33,8 @@ export class TodoList extends React.Component<{}, TodoList.State>{
     this.setState({
       store
     })
+
+    
 
   }
 

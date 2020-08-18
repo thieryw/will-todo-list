@@ -21,6 +21,7 @@ export class Tasks extends React.Component<Tasks.Props>{
 
   private handleCheckBox(id: number){
     this.props.completeUncompleteTask(id);
+    
   }
 
   private handleDelete(id: number){

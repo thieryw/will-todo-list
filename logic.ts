@@ -1,13 +1,35 @@
 
 
 
-export type Task = {
-  task: String;
-  id: number;
-  isCompleted: boolean;
-  
+type Task = {
+  readonly task: String;
+  readonly id: number;
+  readonly isCompleted: boolean;
+ 
+ 
 
 }
+
+
+let id = 0;
+
+function getTask(task: string): Task{
+ 
+  
+  
+  const taskInstance: Task = {
+    "id": id++,
+    "isCompleted": false,
+    task,
+   
+ 
+
+    
+  }
+
+  return taskInstance;
+}
+
 
 export type Store = {
   
@@ -19,29 +41,23 @@ export type Store = {
   
 }
 
-export async function getStore(): Promise<Store>{
+async function getStore(): Promise<Store>{
   const createDelay = (delay: number) => {
     return new Promise<void>(resolve => setTimeout(resolve, delay));
   }
   
-  const tasks: Task[] = [];
-  let index: number = 0;
-  
   await createDelay(4000);
+  const tasks: Task[] = [];
   
 
   const store: Store = {
     tasks,
 
-    "addTask": async task =>{
+    "addTask": task =>{
       
-      const newTask: Task = {
-        task,
-        "id": index++,
-        "isCompleted": false
-      }
 
-      tasks.push(newTask);
+
+      tasks.push(getTask(task));
     },
     
     "deleteTask": id=>{
@@ -57,7 +73,7 @@ export async function getStore(): Promise<Store>{
     "completeOrUncompleteTask": id=>{
       tasks.map((cur, index)=>{
         if(cur.id === id){
-          cur.isCompleted = !cur.isCompleted;
+          (cur.isCompleted as boolean) = !cur.isCompleted;
         }
       })
     },
