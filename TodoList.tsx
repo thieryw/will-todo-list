@@ -17,6 +17,7 @@ namespace TodoList{
   export type State = {
     store: Store;
     taskLoadingId: number;
+    areTasksClearing: boolean;
   }
 }
 
@@ -26,7 +27,8 @@ export class TodoList extends React.Component<{}, TodoList.State>{
     super(props);
     this.state = {
       "store": undefined,
-      "taskLoadingId": undefined
+      "taskLoadingId": undefined,
+      "areTasksClearing": false
     }
   }
 
@@ -77,10 +79,14 @@ export class TodoList extends React.Component<{}, TodoList.State>{
 
   private deleteAllTasks = ()=>{
     const store = this.state.store;
+    this.setState({
+      "areTasksClearing": true
+    })
     store.deleteAllTasks().then(
       ()=>{
         this.setState({
-          store
+          store,
+          "areTasksClearing": false
         })
       }
     );

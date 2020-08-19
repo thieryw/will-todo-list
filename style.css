@@ -6,7 +6,7 @@ ul li p{
   display: inline;
   position: absolute;
   right: 5px;
-  top: -10px;
+  top: -12px;
 
   
 
@@ -49,4 +49,10 @@ ul{
 
 .clearButton{
   margin-top: 20px;
+}
+
+.taskLoadin{
+  right: unset;
+  left: 40px;
+  color: red;
 }
