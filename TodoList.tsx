@@ -16,6 +16,7 @@ import {Store} from "./logic";
 namespace TodoList{
   export type State = {
     store: Store;
+    laodingMsg: string;
   }
 }
 
@@ -24,7 +25,8 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   constructor(props: {}){
     super(props);
     this.state = {
-      "store": undefined
+      "store": undefined,
+      "laodingMsg": ""
     }
   }
 
