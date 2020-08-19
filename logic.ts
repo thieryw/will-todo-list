@@ -11,24 +11,7 @@ type Task = {
 }
 
 
-let id = 0;
 
-function getTask(task: string): Task{
- 
-  
-  
-  const taskInstance: Task = {
-    "id": id++,
-    "isCompleted": false,
-    task,
-   
- 
-
-    
-  }
-
-  return taskInstance;
-}
 
 
 export type Store = {
@@ -36,8 +19,8 @@ export type Store = {
   readonly tasks: readonly Task[];
   addTask: (task: string) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
-  completeOrUncompleteTask: (id: number) => void;
-  deleteAllTasks: ()=>void;
+  completeOrUncompleteTask: (id: number) => Promise<void>;
+  deleteAllTasks: ()=> Promise<void>;
   
 }
 
@@ -48,6 +31,7 @@ async function getStore(): Promise<Store>{
   
   await createDelay(4000);
   const tasks: Task[] = [];
+  let id = 0;
   
 
   const store: Store = {
@@ -56,8 +40,14 @@ async function getStore(): Promise<Store>{
     "addTask": async task =>{
       await createDelay(400);
 
+      const newTask: Task = {
+        "id": id++,
+        "isCompleted": false,
+        task
+      }
 
-      tasks.push(getTask(task));
+
+      tasks.push(newTask);
     },
     
     "deleteTask": async id=>{
@@ -71,7 +61,8 @@ async function getStore(): Promise<Store>{
 
     },
 
-    "completeOrUncompleteTask": id=>{
+    "completeOrUncompleteTask": async id=>{
+      await createDelay(400);
       tasks.map((cur, index)=>{
         if(cur.id === id){
           (cur.isCompleted as boolean) = !cur.isCompleted;
@@ -79,7 +70,8 @@ async function getStore(): Promise<Store>{
       })
     },
 
-    "deleteAllTasks": ()=>{
+    "deleteAllTasks": async ()=>{
+      await createDelay(800);
       tasks.splice(0, tasks.length);
     }
 

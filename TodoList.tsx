@@ -40,30 +40,42 @@ export class TodoList extends React.Component<{}, TodoList.State>{
 
   private completeUncompleteTask = (id: number)=>{
     const store = this.state.store;
-    store.completeOrUncompleteTask(id);
+    store.completeOrUncompleteTask(id).then(
+      ()=>{
+        this.setState({
+          store
+        })
+      }
+    );
 
-    this.setState({
-      store
-    })
+    
     
   }
 
   private deleteTask = (id: number)=>{
     const store = this.state.store;
-    store.deleteTask(id);
+    store.deleteTask(id).then(
+      ()=>{
+        this.setState({
+          store
+        });
+      }
+    )
 
-    this.setState({
-      store
-    })
+ 
   }
 
   private deleteAllTasks = ()=>{
     const store = this.state.store;
-    store.deleteAllTasks();
+    store.deleteAllTasks().then(
+      ()=>{
+        this.setState({
+          store
+        })
+      }
+    );
 
-    this.setState({
-      store
-    })
+    
   }
 
   render = ()=>{
