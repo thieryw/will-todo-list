@@ -8,6 +8,7 @@ namespace Tasks{
     completeUncompleteTask: (taskId: number)=>void;
     deleteTask: (id: number)=> void;
     deleteAllTasks: ()=>void;
+    taskLoadinIndicator: string;
   }
 
 
@@ -37,14 +38,14 @@ export class Tasks extends React.Component<Tasks.Props>{
         {
           this.props.store === undefined ? 
           <p></p> : (this.props.store.tasks.length > 1 ? 
-            <button onClick={this.handleClearButton}>clear all tasks</button> : <p></p>
+            <button className="clearButton" onClick={this.handleClearButton}>clear all tasks</button> : <p></p>
           )
         }
         <ul>
           {this.props.store === undefined ? "" :
             this.props.store.tasks.map(
               (cur, index) => {
-                return <li className={cur.isCompleted ? "complete": "notComplete"}>
+                return <li key={cur.id} className={cur.isCompleted ? "complete": "notComplete"}>
                 <input type="checkbox" checked={cur.isCompleted} onClick={()=> this.handleCheckBox(cur.id)}/>
                 {cur.task}
                 <p onClick={()=> this.handleDelete(cur.id)}>X</p>

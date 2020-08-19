@@ -36,3 +36,17 @@ ul{
 .complete{
   text-decoration: line-through;
 }
+
+.loadingIndicator{
+  display: inline;
+  margin-left: 20px;
+  color: red;
+}
+
+.submitButton{
+  margin-left: 20px;
+}
+
+.clearButton{
+  margin-top: 20px;
+}
