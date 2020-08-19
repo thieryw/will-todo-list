@@ -3,7 +3,7 @@ import React from "react";
 import {Tasks} from "./Tasks";
 import {TaskInput} from "./TaskInput";
 
-import {Store, getStore} from "./logic";
+import {Store} from "./logic";
 
 
 

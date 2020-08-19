@@ -35,7 +35,7 @@ export type Store = {
   
   readonly tasks: readonly Task[];
   addTask: (task: string) => Promise<void>;
-  deleteTask: (id: number) => void;
+  deleteTask: (id: number) => Promise<void>;
   completeOrUncompleteTask: (id: number) => void;
   deleteAllTasks: ()=>void;
   
@@ -60,7 +60,8 @@ async function getStore(): Promise<Store>{
       tasks.push(getTask(task));
     },
     
-    "deleteTask": id=>{
+    "deleteTask": async id=>{
+      await createDelay(400);
       
       tasks.map((cur, index)=> {
         if(cur.id === id){
