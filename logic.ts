@@ -30,8 +30,14 @@ async function getStore(): Promise<Store>{
   }
   
   await createDelay(4000);
-  const tasks: Task[] = [];
-  let id = 0;
+  const tasks: Task[] = [
+    {"id": 0, "isCompleted": false, "task": "do the lawndry"},
+    {"id": 1, "isCompleted": false, "task": "cook lunch"},
+    {"id": 2, "isCompleted": false, "task": "practice the violine for 5 ours"},
+    {"id": 3, "isCompleted": false, "task": "take a dump in the swiming pool"}
+
+  ];
+  let id = 4;
   
 
   const store: Store = {

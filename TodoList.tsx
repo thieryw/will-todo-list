@@ -3,7 +3,7 @@ import React from "react";
 import {Tasks} from "./Tasks";
 import {TaskInput} from "./TaskInput";
 
-import {Store} from "./logic";
+import {Store, storePr} from "./logic";
 
 
 
@@ -33,7 +33,9 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   }
 
 
+  
   private addTask = (store: Store)=>{
+    
     this.setState({
       store
     })
@@ -95,7 +97,20 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   }
 
   render = ()=>{
+   
+    storePr.then(
+      store =>{
+        this.setState({
+          store
+        })
+      }
+    )
+    
     return (
+      
+
+      <div>
+      {this.state.store === undefined ? <p>loading</p> : 
       <div>
         <TaskInput addTast={this.addTask}/>
         <Tasks 
@@ -104,8 +119,13 @@ export class TodoList extends React.Component<{}, TodoList.State>{
         deleteTask={this.deleteTask}
         deleteAllTasks={this.deleteAllTasks}
         taskLoadinId={this.state.taskLoadingId}
+        areTasksClearing={this.state.areTasksClearing}
         
         />
+        </div>
+      }
+
+
       </div>
     )
   }

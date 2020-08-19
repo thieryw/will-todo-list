@@ -39,7 +39,10 @@ export class Tasks extends React.Component<Tasks.Props>{
         {
           this.props.store === undefined ? 
           <p></p> : (this.props.store.tasks.length > 1 ? 
-            <button className="clearButton" onClick={this.handleClearButton}>clear all tasks</button> : <p></p>
+            <button className="clearButton" onClick={this.handleClearButton}>
+              {this.props.areTasksClearing ? <p className="clearLoading">loading</p> : "Clear all tasks"}
+            </button> : 
+            <p></p>
           )
         }
         <ul>

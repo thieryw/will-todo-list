@@ -56,3 +56,8 @@ ul{
   left: 40px;
   color: red;
 }
+
+.clearLoading{
+  display: inline;
+  color: red;
+}
