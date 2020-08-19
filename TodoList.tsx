@@ -98,20 +98,13 @@ export class TodoList extends React.Component<{}, TodoList.State>{
 
   render = ()=>{
    
-    storePr.then(
-      store =>{
-        this.setState({
-          store
-        })
-      }
-    )
+
     
     return (
       
 
       <div>
-      {this.state.store === undefined ? <p>loading</p> : 
-      <div>
+  
         <TaskInput addTast={this.addTask}/>
         <Tasks 
         store={this.state.store} 
@@ -122,8 +115,8 @@ export class TodoList extends React.Component<{}, TodoList.State>{
         areTasksClearing={this.state.areTasksClearing}
         
         />
-        </div>
-      }
+       
+      
 
 
       </div>
