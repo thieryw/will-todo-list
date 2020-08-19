@@ -8,7 +8,7 @@ namespace Tasks{
     completeUncompleteTask: (taskId: number)=>void;
     deleteTask: (id: number)=> void;
     deleteAllTasks: ()=>void;
-    taskLoadinIndicator: string;
+    taskLoadinId: number;
   }
 
 
@@ -47,7 +47,19 @@ export class Tasks extends React.Component<Tasks.Props>{
               (cur, index) => {
                 return <li key={cur.id} className={cur.isCompleted ? "complete": "notComplete"}>
                 <input type="checkbox" checked={cur.isCompleted} onClick={()=> this.handleCheckBox(cur.id)}/>
-                {cur.task}
+                {
+                  (()=>{
+                    if(this.props.taskLoadinId === undefined){
+                      return cur.task;
+                    }
+
+                    if(cur.id === this.props.taskLoadinId){
+                      return "loading";
+                    }
+
+                    return cur.task;
+                  })()
+                }
                 <p onClick={()=> this.handleDelete(cur.id)}>X</p>
                 </li>
                 

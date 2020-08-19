@@ -16,7 +16,7 @@ import {Store} from "./logic";
 namespace TodoList{
   export type State = {
     store: Store;
-    taskLoadingText: string;
+    taskLoadingId: number;
   }
 }
 
@@ -26,7 +26,7 @@ export class TodoList extends React.Component<{}, TodoList.State>{
     super(props);
     this.state = {
       "store": undefined,
-      "taskLoadingText": ""
+      "taskLoadingId": undefined
     }
   }
 
@@ -43,13 +43,13 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   private completeUncompleteTask = (id: number)=>{
     const store = this.state.store;
     this.setState({
-      "taskLoadingText": "loading"
+      "taskLoadingId": id
     })
     store.completeOrUncompleteTask(id).then(
       ()=>{
         this.setState({
           store,
-          "taskLoadingText": ""
+          "taskLoadingId": undefined
         })
       }
     );
@@ -60,10 +60,14 @@ export class TodoList extends React.Component<{}, TodoList.State>{
 
   private deleteTask = (id: number)=>{
     const store = this.state.store;
+    this.setState({
+      "taskLoadingId": id
+    })
     store.deleteTask(id).then(
       ()=>{
         this.setState({
-          store
+          store,
+          "taskLoadingId": undefined
         });
       }
     )
@@ -93,6 +97,7 @@ export class TodoList extends React.Component<{}, TodoList.State>{
         completeUncompleteTask={this.completeUncompleteTask}
         deleteTask={this.deleteTask}
         deleteAllTasks={this.deleteAllTasks}
+        taskLoadinId={this.state.taskLoadingId}
         
         />
       </div>
