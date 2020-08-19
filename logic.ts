@@ -34,7 +34,7 @@ function getTask(task: string): Task{
 export type Store = {
   
   readonly tasks: readonly Task[];
-  addTask: (task: string) => void;
+  addTask: (task: string) => Promise<void>;
   deleteTask: (id: number) => void;
   completeOrUncompleteTask: (id: number) => void;
   deleteAllTasks: ()=>void;
@@ -53,8 +53,8 @@ async function getStore(): Promise<Store>{
   const store: Store = {
     tasks,
 
-    "addTask": task =>{
-      
+    "addTask": async task =>{
+      await createDelay(400);
 
 
       tasks.push(getTask(task));

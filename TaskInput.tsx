@@ -42,8 +42,12 @@ export class TaskInput extends React.Component<TaskInput.Props, TaskInput.State>
     storePr.then(
       store => {
 
-        store.addTask(task);
-        this.props.addTast(store);
+        store.addTask(task).then(
+          ()=>{
+            this.props.addTast(store);
+          }
+        )
+        
         
         this.setState({
           
