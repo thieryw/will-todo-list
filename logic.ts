@@ -2,7 +2,7 @@
 
 
 type Task = {
-  readonly task: String;
+  readonly task: string;
   readonly id: number;
   readonly isCompleted: boolean;
  

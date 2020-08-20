@@ -4,7 +4,7 @@ import {Store} from "./logic";
 
 namespace Tasks{
   export type Props = {
-    store: Store;
+    store: Store | undefined;
     completeUncompleteTask: (taskId: number)=>void;
     deleteTask: (id: number)=> void;
     deleteAllTasks: ()=>void;
@@ -33,6 +33,24 @@ export class Tasks extends React.Component<Tasks.Props>{
   private handleClearButton = ()=>{
     this.props.deleteAllTasks();
   }
+
+  private callbackByTask = (()=>{
+
+    const map = new Map<number, {inputClick: ()=> void; pClick: ()=> void; }>();
+
+    this.props.store.tasks.forEach(({id})=>
+      map.set(id, {
+        "inputClick": ()=> this.handleCheckBox(id),
+        "pClick": ()=> this.handleDelete(id)
+      })
+    );
+
+
+    return map;
+
+  })();
+
+
   render = ()=>{
     return(
       <div>
@@ -48,26 +66,25 @@ export class Tasks extends React.Component<Tasks.Props>{
         <ul>
           {this.props.store === undefined ? "" :
             this.props.store.tasks.map(
-              (cur, index) => {
-                return <li key={cur.id} className={cur.isCompleted ? "complete": "notComplete"}>
-                <input type="checkbox" checked={cur.isCompleted} onClick={()=> this.handleCheckBox(cur.id)}/>
-                {
-                  (()=>{
-                    if(this.props.taskLoadinId === undefined || cur.id !== this.props.taskLoadinId){
-                      return cur.task;
-                    }
-
-                    return <p className="taskLoadin">loading</p>;
-                    
-
-                  
-                  })()
-                }
-                <p onClick={()=> this.handleDelete(cur.id)}>X</p>
+              (cur, index) => 
+                <li 
+                  key={cur.id} 
+                  className={cur.isCompleted ? "complete": "notComplete"}>
+                  <input 
+                    type="checkbox" checked={cur.isCompleted} 
+                    onClick={this.callbackByTask.get(cur.id)!.inputClick}
+                  />
+                  {
+                  this.props.taskLoadinId === undefined || cur.id !== this.props.taskLoadinId ?
+                    cur.task
+                    :
+                    <p className="taskLoadin">loading</p>
+                  }
+                  <p onClick={this.callbackByTask.get(cur.id)!.pClick}>X</p>
                 </li>
                 
                 
-              }
+              
             )
           }
           

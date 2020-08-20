@@ -3,7 +3,7 @@ import React from "react";
 import {Tasks} from "./Tasks";
 import {TaskInput} from "./TaskInput";
 
-import {Store, storePr} from "./logic";
+import {Store} from "./logic";
 
 
 
@@ -107,13 +107,12 @@ export class TodoList extends React.Component<{}, TodoList.State>{
   
         <TaskInput addTast={this.addTask}/>
         <Tasks 
-        store={this.state.store} 
-        completeUncompleteTask={this.completeUncompleteTask}
-        deleteTask={this.deleteTask}
-        deleteAllTasks={this.deleteAllTasks}
-        taskLoadinId={this.state.taskLoadingId}
-        areTasksClearing={this.state.areTasksClearing}
-        
+          store={this.state.store} 
+          completeUncompleteTask={this.completeUncompleteTask}
+          deleteTask={this.deleteTask}
+          deleteAllTasks={this.deleteAllTasks}
+          taskLoadinId={this.state.taskLoadingId}
+          areTasksClearing={this.state.areTasksClearing}    
         />
        
       
