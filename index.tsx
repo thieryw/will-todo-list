@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
-
+import {App} from './TodoList';
 
 import {store} from './logic';
 
@@ -29,12 +29,12 @@ interface AppState {
   }
 }*/
 
-const App: React.FunctionComponent<{}> = ()=>{
+const Apps: React.FunctionComponent<{}> = ()=>{
   return(
-    <div>{store.todoElements[0].element}</div>
+    <App/>
 
   )
 
 }
 
-render(<App />, document.getElementById('root'));
+render(<Apps />, document.getElementById('root'));
