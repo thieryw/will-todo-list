@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
-import {TodoList} from './TodoList'
+
+
+import {store} from './logic';
 
 interface AppProps { }
 interface AppState {
@@ -19,7 +21,7 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <div/>
+      <div>{}</div>
     );
   }
 }
