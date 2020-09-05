@@ -11,7 +11,7 @@ interface AppState {
   name: string;
 }
 
-class App extends Component<AppProps, AppState> {
+/*class App extends Component<AppProps, AppState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,9 +21,20 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <div>{}</div>
+      <div>
+      <div>{store.todoElements[0].element}</div>
+  
+      </div>
     );
   }
+}*/
+
+const App: React.FunctionComponent<{}> = ()=>{
+  return(
+    <div>{store.todoElements[0].element}</div>
+
+  )
+
 }
 
 render(<App />, document.getElementById('root'));

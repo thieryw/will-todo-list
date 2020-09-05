@@ -1,9 +1,9 @@
 
 
 type TodoElement = {
-  element: string;
-  id: number;
-  isComplete: boolean;
+  readonly element: string;
+  readonly id: number;
+  readonly isComplete: boolean;
 }
 
 type Store = {
@@ -17,8 +17,8 @@ type Store = {
 }
 
 
+
 function getStore(){
-  let store: Store;
 
   let todoElements: TodoElement[] = [
     {
@@ -30,7 +30,7 @@ function getStore(){
 
   let count = 1;
 
-  store = {
+  const store: Store = {
     todoElements,
     
     "addElement": element =>{
@@ -54,13 +54,15 @@ function getStore(){
     "markOrUnMarkAsCompleted": id =>{
       todoElements.map((elem, index)=>{
         if(id === elem.id){
-          elem.isComplete = elem.isComplete ? false : true;
+          (elem.isComplete as boolean) = elem.isComplete ? false : true;
           return;
         }
       })
     }
 
   }
+
+  return store;
 
 }
 
