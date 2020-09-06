@@ -31,6 +31,7 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
     <form onSubmit={handleSubmit}>
 
       <input type="text" onChange={handleChange} value={todo}/>
+      <input type="submit" value="submit" />
       
       
     </form>
@@ -53,16 +54,20 @@ export const App: React.FunctionComponent = ()=>{
 
   const addElementToList = (todo: string)=>{
     
-    store.addElement(todo); 
-    
-    setStoreState({store});
-      
+    store.addElement(todo);     
+    setStoreState({store});      
   }
 
   const deleteElement = (id: number)=>{
+    
     store.removeElement(id);
-
     setStoreState({store});    
+  }
+
+  const markOrUnmarkTaskAsComplete = (id: number)=>{
+    
+    store.markOrUnMarkAsCompleted(id);
+    setStoreState({store});
   }
 
   
@@ -78,8 +83,9 @@ export const App: React.FunctionComponent = ()=>{
       
         {
           storeElements.store.todoElements.map((elem, index) => 
-            <li 
-              key={index}>{elem.element} 
+            <li className={elem.isComplete ? "complete" : ""} key={index}>
+              <input type="checkbox" onClick={()=>markOrUnmarkTaskAsComplete(elem.id)}/>
+              {elem.element} 
               <p onClick={()=> deleteElement(elem.id)}>X</p>
             </li>
           )

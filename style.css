@@ -32,3 +32,7 @@ ul li{
 ul{
   list-style-type: none;
 }
+
+.complete{
+  text-decoration: line-through;
+}
