@@ -49,6 +49,7 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 export const App: React.FunctionComponent = ()=>{
 
   const [storeElements, setStoreState] = useState({store});
+  
 
 
 
@@ -84,7 +85,10 @@ export const App: React.FunctionComponent = ()=>{
         {
           storeElements.store.todoElements.map((elem, index) => 
             <li className={elem.isComplete ? "complete" : ""} key={index}>
-              <input type="checkbox" onClick={()=>markOrUnmarkTaskAsComplete(elem.id)}/>
+              <input checked={elem.isComplete as boolean} 
+                type="checkbox" 
+                onClick={()=>markOrUnmarkTaskAsComplete(elem.id)}
+              />
               {elem.element} 
               <p onClick={()=> deleteElement(elem.id)}>X</p>
             </li>
