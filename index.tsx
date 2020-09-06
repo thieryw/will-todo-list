@@ -6,6 +6,7 @@ import {SplashScreen} from './TodoList';
 
 
 
+
 interface AppProps { }
 interface AppState {
   name: string;
