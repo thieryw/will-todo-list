@@ -18,7 +18,7 @@ type Store = {
 
 
 
-async function getStore(): Promise<Store>{
+async function getStorePr(): Promise<Store>{
 
   let todoElements: TodoElement[] = [
     {
@@ -68,6 +68,21 @@ async function getStore(): Promise<Store>{
 
 }
 
+function getStore(storePr: Promise<Store>){
+  let store: Store;
+  storePr.then(
+    value=>{
+      store = value;
+    }
+  );
 
-export const store = getStore();
+  return store;
+}
+
+
+
+const storePr = getStorePr();
+
+
+export const store = getStore(storePr);
 

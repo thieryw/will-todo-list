@@ -50,7 +50,7 @@ export const App: React.FunctionComponent = ()=>{
 
   const [storeElements, setStoreState] = useState({store});
   
-
+  
 
 
   const addElementToList = (todo: string)=>{
@@ -83,6 +83,7 @@ export const App: React.FunctionComponent = ()=>{
       <ul>
       
         {
+          
           storeElements.store.todoElements.map((elem, index) => 
             <li className={elem.isComplete ? "complete" : ""} key={index}>
               <input checked={elem.isComplete as boolean} 
