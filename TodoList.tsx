@@ -28,6 +28,11 @@ export const SplashScreen: React.FunctionComponent = ()=>{
   
   const [screen, setScreen] = useState(<h1>Loading</h1>)
 
+  evtStore.attach(
+    store =>{
+      setScreen(<Input/>);
+    }
+  )
   
   
   
