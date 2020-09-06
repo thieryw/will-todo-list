@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import {storePr, Store} from './logic';
 
 
+
+
+
 const Input: React.FunctionComponent = ()=>{
   const [text, setText] = useState("");
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
@@ -22,16 +25,14 @@ const Input: React.FunctionComponent = ()=>{
 }
 
 export const SplashScreen: React.FunctionComponent = ()=>{
-  const [screen, setScreen] = useState(<h1>Loading</h1>);
+  
   
 
   
   
   return(
     <div>
-      {
-        screen
-      }
+      <Input/>
     </div>
     
   )
