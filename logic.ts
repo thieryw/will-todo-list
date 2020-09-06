@@ -9,9 +9,11 @@ type TodoElement = {
 export type Store = {
   readonly todoElements: readonly TodoElement[];
 
-  readonly addElement: (element: string)=> void;
+  readonly addElement: (element: string)=> Promise<void>;
   readonly removeElement: (id: number)=> void;
   readonly markOrUnMarkAsCompleted: (id: number)=> void;
+
+  readonly evtElement: Evt<string>;
   
 
 }
@@ -25,6 +27,11 @@ async function getStorePr(): Promise<Store>{
       "element": "fuck my wife",
       "id": 0,
       "isComplete": false,
+    },
+    {
+      "element": "do a poo in the loo",
+      "id": 1,
+      "isComplete": false,
     }
   ];
 
@@ -33,7 +40,8 @@ async function getStorePr(): Promise<Store>{
   const store: Store = {
     todoElements,
     
-    "addElement": element =>{
+    "addElement": async element =>{
+      await new Promise<void>(resolve => setTimeout(resolve, 1000));
       const tempElement: TodoElement = {
         element,
         "id": count++,
@@ -58,11 +66,13 @@ async function getStorePr(): Promise<Store>{
           return;
         }
       })
-    }
+    },
+
+    "evtElement": new Evt<string>(),
 
   }
 
-
+  await new Promise<void>(resolve=> setTimeout(resolve, 3000));
 
   return store;
 
