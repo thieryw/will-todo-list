@@ -18,7 +18,7 @@ type Store = {
 
 
 
-function getStore(){
+async function getStore(): Promise<Store>{
 
   let todoElements: TodoElement[] = [
     {
