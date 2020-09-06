@@ -62,6 +62,8 @@ async function getStore(): Promise<Store>{
 
   }
 
+  await setTimeout(()=>{}, 1000);
+
   return store;
 
 }
