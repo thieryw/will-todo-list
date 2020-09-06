@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import {storePr, Store} from './logic';
+import {evtStore, Store} from './logic';
 
 
 
@@ -26,13 +26,14 @@ const Input: React.FunctionComponent = ()=>{
 
 export const SplashScreen: React.FunctionComponent = ()=>{
   
-  
+  const [screen, setScreen] = useState(<h1>Loading</h1>)
 
+  
   
   
   return(
     <div>
-      <Input/>
+      {screen}
     </div>
     
   )

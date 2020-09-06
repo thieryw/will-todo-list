@@ -1,5 +1,4 @@
-
-
+import {Evt} from "evt";
 
 type TodoElement = {
   readonly element: string;
@@ -69,11 +68,18 @@ async function getStorePr(): Promise<Store>{
 
 }
 
+export const evtStore = new Evt<Store>();
 
 
 
+const storePr = getStorePr();
 
-export const storePr = getStorePr();
+
+storePr.then(
+  store =>{
+    evtStore.post(store);
+  }
+)
 
 
 
