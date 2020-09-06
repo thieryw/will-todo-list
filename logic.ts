@@ -45,7 +45,7 @@ function getStore(){
     "removeElement": id =>{
       todoElements.map((elem, index) => {
         if(id === elem.id){
-          todoElements.splice(id, 0);
+          todoElements.splice(index, 1);
           return;
         }
       });

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {store} from './logic';
 
 type InputProps = {
-  addElementToList: (value: string)=>void;
+  addElementToList: (todo: string)=>void;
 }
 
 
@@ -13,8 +13,11 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
+
     InputProps.addElementToList(todo);
+     
     setTodo("");
+    
 
   }
 
@@ -44,18 +47,22 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 
 export const App: React.FunctionComponent = ()=>{
 
-  const [storeElements, setStoreState] = useState([""])
+  const [storeElements, setStoreState] = useState({store});
 
 
 
-  const addElementToList = (todoElement: string)=>{
+  const addElementToList = (todo: string)=>{
     
-    store.addElement(todoElement);
-    let elements = [""];
-    store.todoElements.map(curr => elements.push(curr.element));
-    setStoreState(elements);
+    store.addElement(todo); 
+    
+    setStoreState({store});
+      
+  }
 
-  
+  const deleteElement = (id: number)=>{
+    store.removeElement(id);
+
+    setStoreState({store});    
   }
 
   
@@ -69,7 +76,14 @@ export const App: React.FunctionComponent = ()=>{
       
       <ul>
       
-        {storeElements.map(elem => <li>{elem}</li>)}
+        {
+          storeElements.store.todoElements.map((elem, index) => 
+            <li 
+              key={index}>{elem.element} 
+              <p onClick={()=> deleteElement(elem.id)}>X</p>
+            </li>
+          )
+        }
       
       </ul>
       
