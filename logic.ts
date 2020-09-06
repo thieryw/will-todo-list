@@ -6,7 +6,7 @@ type TodoElement = {
   readonly isComplete: boolean;
 }
 
-type Store = {
+export type Store = {
   readonly todoElements: readonly TodoElement[];
 
   readonly addElement: (element: string)=> void;
@@ -62,27 +62,18 @@ async function getStorePr(): Promise<Store>{
 
   }
 
-  await setTimeout(()=>{}, 1000);
+
 
   return store;
 
 }
 
-function getStore(storePr: Promise<Store>){
-  let store: Store;
-  storePr.then(
-    value=>{
-      store = value;
-    }
-  );
 
-  return store;
-}
 
 
 
 const storePr = getStorePr();
 
 
-export const store = getStore(storePr);
+
 

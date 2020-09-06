@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import {store} from './logic';
+import {storePr, Store} from './logic';
 
 type InputProps = {
   addElementToList: (todo: string)=>void;
@@ -46,7 +46,7 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 
 
 
-export const App: React.FunctionComponent = ()=>{
+export const App: React.FunctionComponent<{store: Store}> = ()=>{
 
   const [storeElements, setStoreState] = useState({store});
   
@@ -83,7 +83,7 @@ export const App: React.FunctionComponent = ()=>{
       <ul>
       
         {
-          
+
           storeElements.store.todoElements.map((elem, index) => 
             <li className={elem.isComplete ? "complete" : ""} key={index}>
               <input checked={elem.isComplete as boolean} 
@@ -102,7 +102,13 @@ export const App: React.FunctionComponent = ()=>{
   )
 }
 
+const SplashScreen: React.FunctionComponent = ()=>{
+  return(
+    {
 
+    }
+  )
+}
 
 
 
