@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
-import {App} from './TodoList';
+import {SplashScreen} from './TodoList';
 
-import {store} from './logic';
+
 
 interface AppProps { }
 interface AppState {
@@ -29,12 +29,12 @@ interface AppState {
   }
 }*/
 
-const Apps: React.FunctionComponent<{}> = ()=>{
+const App: React.FunctionComponent<{}> = ()=>{
   return(
-    <App/>
+    <SplashScreen/>
 
   )
 
 }
 
-render(<Apps />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));
