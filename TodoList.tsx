@@ -44,31 +44,33 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 
 
 
+type AppProps = {
+  store: Store;
+}
 
+export const App: React.FunctionComponent<AppProps> = (AppProps)=>{
 
-export const App: React.FunctionComponent<{store: Store}> = ()=>{
-
-  const [storeElements, setStoreState] = useState({store});
+  const [storeElements, setStoreState] = useState(AppProps.store);
   
   
 
 
   const addElementToList = (todo: string)=>{
     
-    store.addElement(todo);     
-    setStoreState({store});      
+    AppProps.store.addElement(todo);     
+    setStoreState(AppProps.store);      
   }
 
   const deleteElement = (id: number)=>{
     
-    store.removeElement(id);
-    setStoreState({store});    
+    AppProps.store.removeElement(id);
+    setStoreState(AppProps.store);    
   }
 
   const markOrUnmarkTaskAsComplete = (id: number)=>{
     
-    store.markOrUnMarkAsCompleted(id);
-    setStoreState({store});
+    AppProps.store.markOrUnMarkAsCompleted(id);
+    setStoreState(AppProps.store);
   }
 
   
@@ -84,7 +86,7 @@ export const App: React.FunctionComponent<{store: Store}> = ()=>{
       
         {
 
-          storeElements.store.todoElements.map((elem, index) => 
+          storeElements.todoElements.map((elem, index) => 
             <li className={elem.isComplete ? "complete" : ""} key={index}>
               <input checked={elem.isComplete as boolean} 
                 type="checkbox" 
@@ -103,8 +105,10 @@ export const App: React.FunctionComponent<{store: Store}> = ()=>{
 }
 
 const SplashScreen: React.FunctionComponent = ()=>{
+  
   return(
     {
+      storePr
 
     }
   )

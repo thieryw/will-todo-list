@@ -72,7 +72,7 @@ async function getStorePr(): Promise<Store>{
 
 
 
-const storePr = getStorePr();
+export const storePr = getStorePr();
 
 
 
