@@ -1,6 +1,6 @@
 import {Evt} from "evt";
 
-type TodoElement = {
+export type TodoElement = {
   readonly element: string;
   readonly id: number;
   readonly isComplete: boolean;
@@ -13,7 +13,7 @@ export type Store = {
   readonly removeElement: (id: number)=> void;
   readonly markOrUnMarkAsCompleted: (id: number)=> void;
 
-  readonly evtElement: Evt<string>;
+  readonly evtElement: Evt<TodoElement>;
   
 
 }
@@ -47,7 +47,8 @@ async function getStorePr(): Promise<Store>{
         "id": count++,
         "isComplete": false,
       }
-      todoElements.push(tempElement);
+      
+      store.evtElement.post(tempElement);
     },
     
     "removeElement": id =>{
@@ -68,7 +69,7 @@ async function getStorePr(): Promise<Store>{
       })
     },
 
-    "evtElement": new Evt<string>(),
+    "evtElement": new Evt<TodoElement>(),
 
   }
 

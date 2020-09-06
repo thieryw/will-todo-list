@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import {evtStore, Store} from './logic';
+import {TodoElement ,evtStore, Store} from './logic';
 
 
 type InputProps = {
@@ -37,8 +37,12 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   const [storeState, setStore] = useState({store});
 
   const addElement = (todo: string)=>{
-    store.addElement(todo);
-    setStore({store});
+    store.addElement(todo).then(
+      ()=>{
+        setStore({store});
+      }
+    );
+  
   }
 
   const deleteElement = (id: number)=>{
