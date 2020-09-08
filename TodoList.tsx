@@ -44,6 +44,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   const [inputLoading, setInputLoading] = useState(<p></p>);
   const [elementLoadingId, setElementLoadingId] = useState(null);
   const [taskClickedId, setTaskClickedId] = useState(null);
+  const [newTask, setNewTask] = useState("");
 
 
   const addElement = (todo: string)=>{    
@@ -81,18 +82,31 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     )
   }
 
- 
 
-  /*const changeElement = (id: number, newTask: string)=>{
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setNewTask(e.target.value);
+
+  }
+
+  const handleSubmit = (id: number, e: React.FormEvent<HTMLFormElement>) =>{
+    
+    e.preventDefault();
+    
     store.changeElement(id, newTask);
     setElementLoadingId(id);
+    setTaskClickedId(null);
     store.evtUpdateStore.attach(
       ()=>{
         setStore({store});
         setElementLoadingId(null);
+        setNewTask("");
       }
     )
-  }*/
+
+  }
+
+
 
  
    
@@ -111,25 +125,20 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
               type="checkbox"
               onChange={()=> markOrUnMarkAsComplete(elem.id)}
             />
-            
-            <p onClick={()=> setTaskClickedId(elem.id)}>
-              {
-                (()=>{
-            
-                  if(!taskClickedId || taskClickedId !== elem.id){
-                  
-                    return elementLoadingId === elem.id ? "Loading..." : elem.element;
-          
-                  }
+            {
+              (()=>{
+                if(taskClickedId === null || taskClickedId !== elem.id){
+                  return <p onClick={()=> setTaskClickedId(elem.id)}>
+                  {elementLoadingId === elem.id ? "Loading..." : elem.element}
+                  </p>;
+                }
 
-                 
-                  
-                  return "sdlfkj";
-
-                })()
-              }
-            </p>
-             
+                return <form className="taskForm" onSubmit={(e)=>handleSubmit(elem.id, e)}>
+                  <input type="text" onChange={handleChange}/>
+                  <input type="submit"/>
+                </form>
+              })()
+            }  
             
             <p className="deleteButton" onClick={()=> deleteElement(elem.id)}>X</p>
           </li>

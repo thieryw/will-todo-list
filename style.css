@@ -39,3 +39,6 @@ ul{
 .complete{
   text-decoration: line-through;
 }
+.taskForm{
+  display: inline;
+}
