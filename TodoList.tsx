@@ -5,6 +5,7 @@ import {evtStore, Store} from './logic';
 
 type InputProps = {
   addElement: (todoElement: string)=>void;
+  loadingIndicator: JSX.Element;
 }
 
 
@@ -20,10 +21,12 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
   }
   
   return(
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}> 
       <input type="text" value={text} onChange={handleChange}/>
       <input type="submit" value="submit"/>
+      {InputProps.loadingIndicator}
     </form>
+    
   )
 }
 
@@ -35,44 +38,62 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   
   const store = TodoListProps.store;
   const [storeState, setStore] = useState({store});
+  const [inputLoading, setInputLoading] = useState(<p></p>);
+  const [elementLoadingId, setElementLoadingId] = useState(null);
+
 
   const addElement = (todo: string)=>{    
     store.addElement(todo);
+    setInputLoading(<p>Loading...</p>);
 
     store.evtAddElement.attach(
-      store=>{
+      ()=>{
         setStore({store});
+        setInputLoading(<p></p>);
       }
     )
   }
 
   const deleteElement = (id: number)=>{
+    setElementLoadingId(id);
     store.removeElement(id);
-    setStore({store});
+    store.evtRemoveElement.attach(
+      store=>{
+        setStore({store});
+        setElementLoadingId(null);
+        
+      }
+    )
   }
 
   const markOrUnMarkAsComplete = (id: number)=>{
+    setElementLoadingId(id);
     store.markOrUnMarkAsCompleted(id);
-    setStore({store});
+    store.evtMarkOrUnMark.attach(
+      store=>{
+        setStore({store});
+        setElementLoadingId(null);
+      }
+    )
   }
 
   return(
     <div>
-      <Input addElement={addElement}/>
+      <Input addElement={addElement} loadingIndicator={inputLoading}/>
       <ul>
       {
         storeState.store.todoElements.map(
           (elem, index) =>
-          <li key={index} className={elem.isComplete ? "complete" : ""}>
+          <li key={index} className={elem.isComplete && !elementLoadingId ? "complete" : ""}>
             <input 
               checked={elem.isComplete} 
               type="checkbox"
               onChange={()=> markOrUnMarkAsComplete(elem.id)}
             />
-            {elem.element}
+            {elementLoadingId === elem.id ? "Loading..." : elem.element}
             <p onClick={()=> deleteElement(elem.id)}>X</p>
           </li>
-        )
+        ).reverse()
       }
       </ul>
       
