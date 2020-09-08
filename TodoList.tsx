@@ -84,7 +84,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
       {
         storeState.store.todoElements.map(
           (elem, index) =>
-          <li key={index} className={elem.isComplete && !elementLoadingId ? "complete" : ""}>
+          <li key={index} className={elem.isComplete && elementLoadingId !== elem.id ? "complete" : ""}>
             <input 
               checked={elem.isComplete} 
               type="checkbox"
