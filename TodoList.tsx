@@ -37,11 +37,13 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   const [storeState, setStore] = useState({store});
 
   const addElement = (todo: string)=>{    
+    store.addElement(todo);
+
     store.evtAddElement.attach(
-      value =>{
-        
+      store=>{
+        setStore({store});
       }
-    )  
+    )
   }
 
   const deleteElement = (id: number)=>{
