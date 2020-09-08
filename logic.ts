@@ -10,10 +10,12 @@ export type Store = {
   readonly todoElements: readonly TodoElement[];
 
   readonly addElement: (element: string)=> Promise<void>;
-  readonly removeElement: (id: number)=> void;
-  readonly markOrUnMarkAsCompleted: (id: number)=> void;
+  readonly removeElement: (id: number)=> Promise<void>;
+  readonly markOrUnMarkAsCompleted: (id: number)=> Promise<void>;
 
   readonly evtAddElement: Evt<Store>;
+  readonly evtRemoveElement: Evt<Store>;
+  readonly evtMarkOrUnMark: Evt<Store>;
 
 
   
@@ -63,25 +65,33 @@ async function getStorePr(): Promise<Store>{
       
     },
     
-    "removeElement": id =>{
+    "removeElement": async id =>{
+      await setNetworkDelay(1000);
       todoElements.map((elem, index) => {
         if(id === elem.id){
           todoElements.splice(index, 1);
           return;
         }
       });
+
+      store.evtRemoveElement.post(store);
+
     },
 
-    "markOrUnMarkAsCompleted": id =>{
+    "markOrUnMarkAsCompleted": async id =>{
       todoElements.map((elem, index)=>{
         if(id === elem.id){
           (elem.isComplete as boolean) = elem.isComplete ? false : true;
           return;
         }
-      })
+      });
+
+      store.evtMarkOrUnMark.post(store);
     },
 
     "evtAddElement": new Evt<Store>(),
+    "evtRemoveElement": new Evt<Store>(),
+    "evtMarkOrUnMark": new Evt<Store>(),
    
 
   }
