@@ -90,7 +90,9 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
               type="checkbox"
               onChange={()=> markOrUnMarkAsComplete(elem.id)}
             />
-            {elementLoadingId === elem.id ? "Loading..." : elem.element}
+            {
+              elementLoadingId === elem.id ? "Loading..." : elem.element
+            }
             <p onClick={()=> deleteElement(elem.id)}>X</p>
           </li>
         ).reverse()

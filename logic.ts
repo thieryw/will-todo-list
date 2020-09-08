@@ -12,6 +12,7 @@ export type Store = {
   readonly addElement: (element: string)=> Promise<void>;
   readonly removeElement: (id: number)=> Promise<void>;
   readonly markOrUnMarkAsCompleted: (id: number)=> Promise<void>;
+  readonly changeElement: (id: number, newElement: string)=> Promise<void>;
 
   readonly evtUpdateStore: Evt<void>;
 
@@ -84,6 +85,18 @@ async function getStorePr(): Promise<Store>{
           return;
         }
       });
+
+      store.evtUpdateStore.post();
+    },
+    
+    "changeElement": async (id, newElement) =>{
+      await setNetworkDelay(1000);
+      todoElements.map((elem, index)=>{
+        if(id === elem.id){
+          (elem.element as string) = newElement;
+          return;
+        }
+      })
 
       store.evtUpdateStore.post();
     },
