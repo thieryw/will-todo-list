@@ -13,9 +13,7 @@ export type Store = {
   readonly removeElement: (id: number)=> Promise<void>;
   readonly markOrUnMarkAsCompleted: (id: number)=> Promise<void>;
 
-  readonly evtAddElement: Evt<void>;
-  readonly evtRemoveElement: Evt<void>;
-  readonly evtMarkOrUnMark: Evt<void>;
+  readonly evtUpdateStore: Evt<void>;
 
 
   
@@ -60,7 +58,7 @@ async function getStorePr(): Promise<Store>{
 
       todoElements.push(tempElement);
 
-      store.evtAddElement.post();
+      store.evtUpdateStore.post();
       
       
     },
@@ -74,7 +72,7 @@ async function getStorePr(): Promise<Store>{
         }
       });
 
-      store.evtRemoveElement.post();
+      store.evtUpdateStore.post();
 
     },
 
@@ -87,12 +85,11 @@ async function getStorePr(): Promise<Store>{
         }
       });
 
-      store.evtMarkOrUnMark.post();
+      store.evtUpdateStore.post();
     },
 
-    "evtAddElement": new Evt<void>(),
-    "evtRemoveElement": new Evt<void>(),
-    "evtMarkOrUnMark": new Evt<void>(),
+    "evtUpdateStore": new Evt<void>(),
+
    
 
   }

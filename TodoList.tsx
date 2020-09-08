@@ -46,7 +46,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     store.addElement(todo);
     setInputLoading(<p>Loading...</p>);
 
-    store.evtAddElement.attach(
+    store.evtUpdateStore.attach(
       ()=>{
         setStore({store});
         setInputLoading(<p></p>);
@@ -57,7 +57,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   const deleteElement = (id: number)=>{
     setElementLoadingId(id);
     store.removeElement(id);
-    store.evtRemoveElement.attach(
+    store.evtUpdateStore.attach(
       ()=>{
         setStore({store});
         setElementLoadingId(null);
@@ -69,7 +69,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   const markOrUnMarkAsComplete = (id: number)=>{
     setElementLoadingId(id);
     store.markOrUnMarkAsCompleted(id);
-    store.evtMarkOrUnMark.attach(
+    store.evtUpdateStore.attach(
       ()=>{
         setStore({store});
         setElementLoadingId(null);
