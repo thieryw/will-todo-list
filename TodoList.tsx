@@ -10,19 +10,22 @@ type InputProps = {
 
 
 const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
-  const [text, setText] = useState("");
+  const [task, setTask] = useState("");
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-    InputProps.addElement(text);
-    setText("");
+    if(task === ""){
+      return;
+    }  
+    InputProps.addElement(task);
+    setTask("");
   }
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    setText(e.target.value);
+    setTask(e.target.value);
   }
   
   return(
     <form onSubmit={handleSubmit}> 
-      <input type="text" value={text} onChange={handleChange}/>
+      <input type="text" value={task} onChange={handleChange}/>
       <input type="submit" value="submit"/>
       {InputProps.loadingIndicator}
     </form>
@@ -40,6 +43,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   const [storeState, setStore] = useState({store});
   const [inputLoading, setInputLoading] = useState(<p></p>);
   const [elementLoadingId, setElementLoadingId] = useState(null);
+  const [taskClickedId, setTaskClickedId] = useState(null);
 
 
   const addElement = (todo: string)=>{    
@@ -77,6 +81,23 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     )
   }
 
+ 
+
+  /*const changeElement = (id: number, newTask: string)=>{
+    store.changeElement(id, newTask);
+    setElementLoadingId(id);
+    store.evtUpdateStore.attach(
+      ()=>{
+        setStore({store});
+        setElementLoadingId(null);
+      }
+    )
+  }*/
+
+ 
+   
+  
+
   return(
     <div>
       <Input addElement={addElement} loadingIndicator={inputLoading}/>
@@ -90,10 +111,27 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
               type="checkbox"
               onChange={()=> markOrUnMarkAsComplete(elem.id)}
             />
-            {
-              elementLoadingId === elem.id ? "Loading..." : elem.element
-            }
-            <p onClick={()=> deleteElement(elem.id)}>X</p>
+            
+            <p onClick={()=> setTaskClickedId(elem.id)}>
+              {
+                (()=>{
+            
+                  if(!taskClickedId || taskClickedId !== elem.id){
+                  
+                    return elementLoadingId === elem.id ? "Loading..." : elem.element;
+          
+                  }
+
+                 
+                  
+                  return "sdlfkj";
+
+                })()
+              }
+            </p>
+             
+            
+            <p className="deleteButton" onClick={()=> deleteElement(elem.id)}>X</p>
           </li>
         ).reverse()
       }
