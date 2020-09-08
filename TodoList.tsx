@@ -82,8 +82,6 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     )
   }
 
-
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
     setNewTask(e.target.value);
 
@@ -105,12 +103,6 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     )
 
   }
-
-
-
- 
-   
-  
 
   return(
     <div>
