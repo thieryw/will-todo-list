@@ -9,9 +9,11 @@ type TodoElement = {
 export type Store = {
   readonly todoElements: readonly TodoElement[];
 
-  readonly addElement: (element: string)=> void;
+  readonly addElement: (element: string)=> Promise<void>;
   readonly removeElement: (id: number)=> void;
   readonly markOrUnMarkAsCompleted: (id: number)=> void;
+
+  readonly evtAddElement: Evt<Store>;
 
 
   
@@ -35,20 +37,28 @@ async function getStorePr(): Promise<Store>{
     }
   ];
 
+  const setNetworkDelay = (delay: number)=> {
+    return new Promise<void>(resolve=> setTimeout(resolve, delay));
+  }
+
   let count = 2;
 
   const store: Store = {
     todoElements,
     
-    "addElement": element =>{
+    "addElement": async element =>{
  
       const tempElement: TodoElement = {
         element,
         "id": count++,
         "isComplete": false,
-      }
+      };
+
+      await setNetworkDelay(1000);
 
       todoElements.push(tempElement);
+
+      store.evtAddElement.post(store);
       
       
     },
@@ -71,11 +81,12 @@ async function getStorePr(): Promise<Store>{
       })
     },
 
+    "evtAddElement": new Evt<Store>(),
    
 
   }
 
-  await new Promise<void>(resolve=> setTimeout(resolve, 3000));
+  await setNetworkDelay(3000);
 
   return store;
 
