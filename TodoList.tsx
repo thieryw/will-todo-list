@@ -33,6 +33,18 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
   )
 }
 
+
+type TaskProps = {
+  task:
+}
+
+
+const Task: React.FunctionComponent = ()=>{
+  return(
+
+  )
+}
+
 type TodoListProps = {
   store: Store;
 }

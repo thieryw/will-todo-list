@@ -1,13 +1,13 @@
 import {Evt} from "evt";
 
-type TodoElement = {
+type Task = {
   readonly element: string;
   readonly id: number;
   readonly isComplete: boolean;
 }
 
 export type Store = {
-  readonly todoElements: readonly TodoElement[];
+  readonly todoElements: readonly Task[];
 
   readonly addElement: (element: string)=> Promise<void>;
   readonly removeElement: (id: number)=> Promise<void>;
@@ -25,7 +25,7 @@ export type Store = {
 
 async function getStorePr(): Promise<Store>{
 
-  let todoElements: TodoElement[] = [
+  let tasks: Task[] = [
     {
       "element": "fuck my wife",
       "id": 0,
@@ -45,11 +45,11 @@ async function getStorePr(): Promise<Store>{
   let count = 2;
 
   const store: Store = {
-    todoElements,
+    tasks,
     
     "addElement": async element =>{
  
-      const tempElement: TodoElement = {
+      const tempElement: Task = {
         element,
         "id": count++,
         "isComplete": false,
@@ -57,7 +57,7 @@ async function getStorePr(): Promise<Store>{
 
       await setNetworkDelay(1000);
 
-      todoElements.push(tempElement);
+      tasks.push(tempElement);
 
       store.evtUpdateStore.post();
       
@@ -65,10 +65,10 @@ async function getStorePr(): Promise<Store>{
     },
     
     "removeElement": async id =>{
-      await setNetworkDelay(1000);
-      todoElements.map((elem, index) => {
+      await setNetworkDelay(3000);
+      tasks.map((elem, index) => {
         if(id === elem.id){
-          todoElements.splice(index, 1);
+          tasks.splice(index, 1);
           return;
         }
       });
@@ -78,8 +78,8 @@ async function getStorePr(): Promise<Store>{
     },
 
     "markOrUnMarkAsCompleted": async id =>{
-      await setNetworkDelay(1000);
-      todoElements.map((elem, index)=>{
+      await setNetworkDelay(3000);
+      tasks.map((elem, index)=>{
         if(id === elem.id){
           (elem.isComplete as boolean) = elem.isComplete ? false : true;
           return;
@@ -91,7 +91,7 @@ async function getStorePr(): Promise<Store>{
     
     "changeElement": async (id, newElement) =>{
       await setNetworkDelay(1000);
-      todoElements.map((elem, index)=>{
+      tasks.map((elem, index)=>{
         if(id === elem.id){
           (elem.element as string) = newElement;
           return;
