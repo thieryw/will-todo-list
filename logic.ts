@@ -1,7 +1,7 @@
 import {Evt} from "evt";
 
-type Task = {
-  readonly element: string;
+export type Task = {
+  readonly element: readonly string;
   readonly id: number;
   readonly isComplete: boolean;
 }

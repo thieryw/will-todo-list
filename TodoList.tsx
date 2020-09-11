@@ -34,13 +34,10 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 }
 
 
-type TaskProps = {
-  task:
-}
-
 
 const Task: React.FunctionComponent = ()=>{
   return(
+    <div></div>
 
   )
 }
@@ -121,7 +118,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
       <Input addElement={addElement} loadingIndicator={inputLoading}/>
       <ul>
       {
-        storeState.store.todoElements.map(
+        storeState.store.tasks.map(
           (elem, index) =>
           <li key={index} className={elem.isComplete && elementLoadingId !== elem.id ? "complete" : ""}>
             <input 
