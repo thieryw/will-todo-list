@@ -14,10 +14,8 @@ export type Store = {
   readonly markOrUnMarkAsCompleted: (id: number)=> Promise<void>;
   readonly changeElement: (id: number, newElement: string)=> Promise<void>;
 
-  readonly evtAddElement: Evt<void>;
-  readonly evtRemoveElement: Evt<void>;
-  readonly evtMarkUnMarkElement: Evt<void>;
-  readonly evtChangeElement: Evt<void>;
+  readonly evtUpdateStore: Evt<void>;
+
 
 
   
@@ -62,7 +60,7 @@ async function getStorePr(): Promise<Store>{
 
       tasks.push(tempElement);
 
-      store.evtAddElement.post();
+      store.evtUpdateStore.post();
       
       
     },
@@ -75,9 +73,7 @@ async function getStorePr(): Promise<Store>{
           return;
         }
       });
-
-      store.evtRemoveElement.post();
-
+      store.evtUpdateStore.post();
     },
 
     "markOrUnMarkAsCompleted": async id =>{
@@ -89,7 +85,8 @@ async function getStorePr(): Promise<Store>{
         }
       });
 
-      store.evtMarkUnMarkElement.post();
+
+      store.evtUpdateStore.post();
     },
     
     "changeElement": async (id, newElement) =>{
@@ -101,13 +98,11 @@ async function getStorePr(): Promise<Store>{
         }
       })
 
-      store.evtChangeElement.post();
+      
+      store.evtUpdateStore.post();
     },
 
-    "evtAddElement": new Evt<void>(),
-    "evtRemoveElement": new Evt<void>(),
-    "evtMarkUnMarkElement": new Evt<void>(),
-    "evtChangeElement": new Evt<void>(),
+    "evtUpdateStore": new Evt<void>(),
 
    
 

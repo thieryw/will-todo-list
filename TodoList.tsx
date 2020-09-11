@@ -47,7 +47,7 @@ const Task: React.FunctionComponent<TaskProps> = (TaskProps)=>{
   const handleCheckbox = ()=>{
     setIsTaskLoading(true);
     TaskProps.store.markOrUnMarkAsCompleted(TaskProps.taskId);
-    TaskProps.store.evtUpdateStore.attach(
+    TaskProps.store.evtMarkUnMarkElement.attach(
       () => {
         setTask(TaskProps.store.tasks[TaskProps.taskId]);
         setIsTaskLoading(false);
@@ -59,7 +59,7 @@ const Task: React.FunctionComponent<TaskProps> = (TaskProps)=>{
   
   return(
 
-    <li key={task.id} className={task.isComplete ? "complete" : ""}>
+    <li className={task.isComplete ? "complete" : ""}>
       <input type="checkbox" checked={task.isComplete} onChange={handleCheckbox}/>
       <p>{isTaskLoading ? "Loading..." : task.element}</p>
       <p className="deleteButton">X</p>
@@ -79,7 +79,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     <div>
       <ul>
         {
-          TodoListProps.store.tasks.map(task=><Task store={TodoListProps.store} taskId={task.id}/>)
+          TodoListProps.store.tasks.map(task=><Task key={task.id} store={TodoListProps.store} taskId={task.id}/>)
         }
       </ul>
     
