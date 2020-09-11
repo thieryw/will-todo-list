@@ -1,13 +1,13 @@
 import {Evt} from "evt";
 
 export type Task = {
-  readonly element: readonly string;
+  readonly element: string;
   readonly id: number;
   readonly isComplete: boolean;
 }
 
 export type Store = {
-  readonly todoElements: readonly Task[];
+  readonly tasks: readonly Task[];
 
   readonly addElement: (element: string)=> Promise<void>;
   readonly removeElement: (id: number)=> Promise<void>;
