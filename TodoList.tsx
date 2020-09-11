@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import {evtStore, Store} from './logic';
+import {evtStore, Store, Task} from './logic';
 
 
 type InputProps = {
@@ -33,11 +33,38 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
   )
 }
 
+type TaskProps = {
+  store: Store;
+  taskId: number;
+  
 
+}
 
-const Task: React.FunctionComponent = ()=>{
+const Task: React.FunctionComponent<TaskProps> = (TaskProps)=>{
+  const [isTaskLoading, setIsTaskLoading] = useState(false);
+  const [task, setTask] = useState(TaskProps.store.tasks[TaskProps.taskId]);
+  
+  const handleCheckbox = ()=>{
+    setIsTaskLoading(true);
+    TaskProps.store.markOrUnMarkAsCompleted(TaskProps.taskId);
+    TaskProps.store.evtUpdateStore.attach(
+      () => {
+        setTask(TaskProps.store.tasks[TaskProps.taskId]);
+        setIsTaskLoading(false);
+      }
+    );
+    
+
+  }
+  
   return(
-    <div></div>
+
+    <li key={task.id} className={task.isComplete ? "complete" : ""}>
+      <input type="checkbox" checked={task.isComplete} onChange={handleCheckbox}/>
+      <p>{isTaskLoading ? "Loading..." : task.element}</p>
+      <p className="deleteButton">X</p>
+    
+    </li>
 
   )
 }
@@ -47,6 +74,21 @@ type TodoListProps = {
 }
 
 const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
+
+  return(
+    <div>
+      <ul>
+        {
+          TodoListProps.store.tasks.map(task=><Task store={TodoListProps.store} taskId={task.id}/>)
+        }
+      </ul>
+    
+    </div>
+
+  );
+}
+
+/*const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
   
   const store = TodoListProps.store;
   const [storeState, setStore] = useState({store});
@@ -150,7 +192,7 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     </div>
   )
 
-}
+}*/
 
 export const SplashScreen: React.FunctionComponent = ()=>{
   
