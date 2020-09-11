@@ -41,28 +41,32 @@ type TaskProps = {
 }
 
 const Task: React.FunctionComponent<TaskProps> = (TaskProps)=>{
+  const store = TaskProps.store;
   const [isTaskLoading, setIsTaskLoading] = useState(false);
-  const [task, setTask] = useState(TaskProps.store.tasks[TaskProps.taskId]);
+  const [storeState, setStoreState] = useState({store});
   
   const handleCheckbox = ()=>{
     setIsTaskLoading(true);
-    TaskProps.store.markOrUnMarkAsCompleted(TaskProps.taskId);
-    TaskProps.store.evtUpdateStore.attach(
+    store.markOrUnMarkAsCompleted(TaskProps.taskId);
+    storeState.store.evtUpdateStore.attach(
       () => {
-        setTask(TaskProps.store.tasks[TaskProps.taskId]);
+        setStoreState({store});
         setIsTaskLoading(false);
-        console.log("fuck");
+        
+        storeState.store.evtUpdateStore.detach();
+        
       }
     );
+
     
 
   }
   
   return(
 
-    <li className={task.isComplete ? "complete" : ""}>
-      <input type="checkbox" checked={task.isComplete} onChange={handleCheckbox}/>
-      <p>{isTaskLoading ? "Loading..." : task.element}</p>
+    <li className={storeState.store.tasks[TaskProps.taskId].isComplete ? "complete" : ""}>
+      <input type="checkbox" checked={storeState.store.tasks[TaskProps.taskId].isComplete} onChange={handleCheckbox}/>
+      <p>{isTaskLoading ? "Loading..." : storeState.store.tasks[TaskProps.taskId].element}</p>
       <p className="deleteButton">X</p>
     
     </li>
@@ -75,14 +79,32 @@ type TodoListProps = {
 }
 
 const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
+  const store = TodoListProps.store;
+  const [storeState, setStore] = useState({store});
+  const [inputLoading, setInputLoading] = useState(<p></p>);
 
+  const addElement = (todo: string)=>{    
+    store.addElement(todo);
+    setInputLoading(<p>Loading...</p>);
+
+    store.evtUpdateStore.attach(
+      ()=>{
+        setStore({store});
+        setInputLoading(<p></p>);
+        store.evtUpdateStore.detach();
+        
+      }
+    )
+  }
   return(
     <div>
+      <Input addElement={addElement} loadingIndicator={inputLoading}/>
+
       <ul>
         {
           TodoListProps.store.tasks.map(
             task=><Task key={task.id} store={TodoListProps.store} taskId={task.id}/>
-          )
+          ).reverse()
         }
       </ul>
     
