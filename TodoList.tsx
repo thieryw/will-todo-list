@@ -47,10 +47,11 @@ const Task: React.FunctionComponent<TaskProps> = (TaskProps)=>{
   const handleCheckbox = ()=>{
     setIsTaskLoading(true);
     TaskProps.store.markOrUnMarkAsCompleted(TaskProps.taskId);
-    TaskProps.store.evtMarkUnMarkElement.attach(
+    TaskProps.store.evtUpdateStore.attach(
       () => {
         setTask(TaskProps.store.tasks[TaskProps.taskId]);
         setIsTaskLoading(false);
+        console.log("fuck");
       }
     );
     
@@ -79,7 +80,9 @@ const TodoList: React.FunctionComponent<TodoListProps> = (TodoListProps)=>{
     <div>
       <ul>
         {
-          TodoListProps.store.tasks.map(task=><Task key={task.id} store={TodoListProps.store} taskId={task.id}/>)
+          TodoListProps.store.tasks.map(
+            task=><Task key={task.id} store={TodoListProps.store} taskId={task.id}/>
+          )
         }
       </ul>
     
