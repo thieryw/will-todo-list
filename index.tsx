@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
-import {TodoList} from './TodoList'
 
-interface AppProps { }
+
+/*interface AppProps { }
 interface AppState {
   name: string;
-}
+}*/
 
-class App extends Component<AppProps, AppState> {
+/*class App extends Component<AppProps, AppState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,9 +19,18 @@ class App extends Component<AppProps, AppState> {
 
   render() {
     return (
-      <TodoList/>
+      </>
     );
   }
+}*/
+
+const App: React.FunctionComponent = ()=>{
+
+  return(
+    <div>sexe</div>
+  )
 }
+
+
 
 render(<App />, document.getElementById('root'));
