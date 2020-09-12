@@ -3,22 +3,35 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import {useEvt} from "evt/hooks";
+import {Evt} from "evt";
+import { id } from "evt/tools/typeSafety/id";
+
 import { SplashScreen } from "./TodoList";
-import {evtStoreLoaded} from "./logic";
+import {getStore, Store} from "./logic";
 
 
+const prStore = Evt.from(id<Promise<Store | undefined>>(getStore()))
+  .toStateful(undefined);
 
 
 
 
 const App: React.FunctionComponent = ()=>{
-  const [isContentLoaded, setIsContentLoaded] = useState(false);
-  useEvt(ctx=>{
-    
 
-  }, [isContentLoaded])
+  const [store, setStore] = useState<Store | undefined>(undefined);
+
+
+
+
   return(
-    <div>sexe</div>
+    <div>
+      {
+        store === undefined ? 
+          <SplashScreen/>:
+          <p>{JSON.stringify(store)}</p>
+      }
+    </div>
+    
   )
 }
 

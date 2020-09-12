@@ -13,9 +13,7 @@ export type Store = {
   readonly evtTaskAdded: NonPostableEvt<Item>;
 }
 
-
-
-async function getStore(): Promise<Store>{
+export async function getStore(): Promise<Store>{
   const tasks: Item[] = [];
 
   const simulateDelay = (delay: number)=>{
@@ -45,21 +43,16 @@ async function getStore(): Promise<Store>{
     "evtTaskAdded": new Evt(),
   }
 
+  await simulateDelay(3000);
+
   return store;
     
   
 }
 
-const storePr = getStore();
 
-export const evtStoreLoaded: Evt<Store> = new Evt();
 
-storePr.then(
-  store =>{
-    evtStoreLoaded.post(store);
 
-  }
-)
 
 
 
