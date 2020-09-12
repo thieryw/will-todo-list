@@ -1,27 +1,44 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
-import {useEvt} from "evt/hooks";
+import {useEvt, useStatefulEvt} from "evt/hooks";
 import {Evt} from "evt";
-import { id } from "evt/tools/typeSafety/id";
 
 import { SplashScreen } from "./TodoList";
 import {getStore, Store} from "./logic";
 
 
-const prStore = Evt.from(id<Promise<Store | undefined>>(getStore()))
-  .toStateful(undefined);
+/*const evtStore = Evt.from<Store | undefined>(getStore())
+  .toStateful(undefined);*/
 
-
+const prStore = getStore();
 
 
 const App: React.FunctionComponent = ()=>{
 
   const [store, setStore] = useState<Store | undefined>(undefined);
 
+  useEffect(()=>{
+
+    let isDone= false;
+
+    prStore.then(store=> {
+
+      if( isDone ){
+        return;
+      }
+
+      setStore(store);
+
+    });
+
+    return ()=> isDone =true;
+
+  },[prStore]);
 
 
+  /*useStatefulEvt([ evtStore ]);*/
 
   return(
     <div>

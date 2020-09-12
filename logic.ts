@@ -1,6 +1,6 @@
 import { Evt, NonPostableEvt, ToPostableEvt } from "evt";
 
-type Item = {
+type Task = {
   description: string;
   id: number;
   isComplete: boolean;
@@ -8,13 +8,13 @@ type Item = {
 
 
 export type Store = {
-  readonly tasks: readonly Item[];
+  readonly tasks: readonly Task[];
   readonly addTask: (task: string)=> Promise<void>;
-  readonly evtTaskAdded: NonPostableEvt<Item>;
+  readonly evtTaskAdded: NonPostableEvt<Task>;
 }
 
 export async function getStore(): Promise<Store>{
-  const tasks: Item[] = [];
+  const tasks: Task[] = [];
 
   const simulateDelay = (delay: number)=>{
     return new Promise<void>(resolve => setTimeout(resolve, delay));
@@ -29,15 +29,15 @@ export async function getStore(): Promise<Store>{
       
       await simulateDelay(3000);
       
-      const item: Item = {
+      const task: Task = {
         description,
         "id": count++,
         "isComplete": false,
       }
       
-      tasks.push(item);
+      tasks.push(task);
 
-      store.evtTaskAdded.post(item);
+      store.evtTaskAdded.post(task);
 
     },
     "evtTaskAdded": new Evt(),
