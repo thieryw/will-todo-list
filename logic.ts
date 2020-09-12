@@ -1,11 +1,13 @@
 import { Evt, NonPostableEvt, ToPostableEvt } from "evt";
 
-type Task = {
+
+type MutableTask = {
   description: string;
   id: number;
   isComplete: boolean;
-}
+};
 
+type Task = Readonly<MutableTask>;
 
 export type Store = {
   readonly tasks: readonly Task[];
@@ -14,7 +16,7 @@ export type Store = {
 }
 
 export async function getStore(): Promise<Store>{
-  const tasks: Task[] = [];
+  const tasks: MutableTask[] = [];
 
   const simulateDelay = (delay: number)=>{
     return new Promise<void>(resolve => setTimeout(resolve, delay));
