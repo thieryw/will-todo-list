@@ -1,20 +1,23 @@
-import {Evt} from "evt";
+import { Evt, NonPostableEvt, ToPostableEvt } from "evt";
 
 export type Task = {
-  readonly element: string;
-  readonly id: number;
-  readonly isComplete: boolean;
+  element: string;
+  id: number;
+  isComplete: boolean;
 }
 
 export type Store = {
-  readonly tasks: readonly Task[];
+  readonly tasks: Task[];
 
   readonly addElement: (element: string)=> Promise<void>;
   readonly removeElement: (id: number)=> Promise<void>;
   readonly markOrUnMarkAsCompleted: (id: number)=> Promise<void>;
   readonly changeElement: (id: number, newElement: string)=> Promise<void>;
 
-  readonly evtUpdateStore: Evt<void>;
+  readonly evtUpdateStore: NonPostableEvt<{ 
+    type: "TASK ADDED" | "TASK DELETED" | "TASK UPDATED"
+    task: Task; 
+  }>;
 
 
 
@@ -26,7 +29,7 @@ export type Store = {
 
 async function getStorePr(): Promise<Store>{
 
-  let tasks: Task[] = [
+  const tasks: Task[] = [     
     {
       "element": "fuck my wife",
       "id": 0,
@@ -45,48 +48,52 @@ async function getStorePr(): Promise<Store>{
 
   let count = 2;
 
+  const evtUpdateStore: ToPostableEvt<Store["evtUpdateStore"]> = new Evt();
+
   const store: Store = {
     tasks,
-    
     "addElement": async element =>{
  
-      const tempElement: Task = {
-        element,
-        "id": count++,
-        "isComplete": false,
-      };
-
       await setNetworkDelay(1000);
 
-      tasks.push(tempElement);
+      const task: Task = {
+        element,
+        "id": count++,
+        "isComplete": false
+      };
 
-      store.evtUpdateStore.post();
+      tasks.push(task);
+
+      evtUpdateStore.post({ "type": "TASK ADDED", task });
       
       
     },
     
     "removeElement": async id =>{
       await setNetworkDelay(3000);
-      tasks.map((elem, index) => {
-        if(id === elem.id){
-          tasks.splice(index, 1);
-          return;
-        }
-      });
-      store.evtUpdateStore.post();
+
+      const task = tasks.find(task => task.id === id );
+
+      if( !task ){
+        return;
+      }
+
+      tasks.splice(tasks.indexOf(task),1)
+
+      evtUpdateStore.post();
     },
 
     "markOrUnMarkAsCompleted": async id =>{
       await setNetworkDelay(3000);
       tasks.map((elem, index)=>{
         if(id === elem.id){
-          (elem.isComplete as boolean) = elem.isComplete ? false : true;
+          elem.isComplete = !elem.isComplete;
           return;
         }
       });
 
 
-      store.evtUpdateStore.post();
+      evtUpdateStore.post();
     },
     
     "changeElement": async (id, newElement) =>{
@@ -99,13 +106,9 @@ async function getStorePr(): Promise<Store>{
       })
 
       
-      store.evtUpdateStore.post();
+      evtUpdateStore.post();
     },
-
-    "evtUpdateStore": new Evt<void>(),
-
-   
-
+    evtUpdateStore
   }
 
   await setNetworkDelay(3000);

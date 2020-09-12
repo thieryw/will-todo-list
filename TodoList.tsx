@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer, useCallback } from 'react';
 
-import {evtStore, Store, Task} from './logic';
+import { useEvt } from "evt/hooks";
+
+import {evtStore, Store, Task} from './logic'; 
 
 
 type InputProps = {
@@ -34,44 +36,43 @@ const Input: React.FunctionComponent<InputProps> = (InputProps)=>{
 }
 
 type TaskProps = {
-  store: Store;
+  store: Pick<Store,"markOrUnMarkAsCompleted" | "evtUpdateStore" | "tasks">,
   taskId: number;
-  
+};
 
-}
+const Task: React.FunctionComponent<TaskProps> = props =>{
+  const { store, taskId } = props;
 
-const Task: React.FunctionComponent<TaskProps> = (TaskProps)=>{
-  const store = TaskProps.store;
-  const [isTaskLoading, setIsTaskLoading] = useState(false);
-  const [storeState, setStoreState] = useState({store});
-  
-  const handleCheckbox = ()=>{
-    setIsTaskLoading(true);
-    store.markOrUnMarkAsCompleted(TaskProps.taskId);
-    storeState.store.evtUpdateStore.attach(
-      () => {
-        setStoreState({store});
-        setIsTaskLoading(false);
-        
-        storeState.store.evtUpdateStore.detach();
-        
-      }
-    );
+  const task = store.tasks.find(task=> task.id === taskId)!;
 
+  const [,forceUpdate]= useReducer(x=>x+1,0);
+
+  useEvt(
+    ctx=> {
+
+      store.evtUpdateStore.attach(
+        ({ type, task })=> type === "TASK UPDATED" && task.id === taskId,
+        ctx,
+        ()=> forceUpdate()
+      );
     
+    }, 
+    [store.evtUpdateStore]
+  );
 
-  }
-  
+  const onInputChange= useCallback(
+    ()=> store.markOrUnMarkAsCompleted(taskId),
+    [taskId, store.markOrUnMarkAsCompleted]
+  );
+
   return(
-
-    <li className={storeState.store.tasks[TaskProps.taskId].isComplete ? "complete" : ""}>
-      <input type="checkbox" checked={storeState.store.tasks[TaskProps.taskId].isComplete} onChange={handleCheckbox}/>
-      <p>{isTaskLoading ? "Loading..." : storeState.store.tasks[TaskProps.taskId].element}</p>
-      <p className="deleteButton">X</p>
-    
+    <li className= {task.isComplete ? "complete" : ""}>
+      <input type="checkbox" 
+      checked={task.isComplete} 
+      onChange={onInputChange}/>
+      <p>{task.element}</p>
     </li>
-
-  )
+  );
 }
 
 type TodoListProps = {
@@ -225,7 +226,8 @@ export const SplashScreen: React.FunctionComponent = ()=>{
 
   evtStore.attach(
     store =>{
-      setScreen(<TodoList store={store}/>);
+     setScreen(<TodoList store={store}/>);
+     evtStore.detach();
     }
   )
   
