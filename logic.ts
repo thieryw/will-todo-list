@@ -7,7 +7,7 @@ type Item = {
 }
 
 
-type Store = {
+export type Store = {
   readonly tasks: readonly Item[];
   readonly addTask: (task: string)=> Promise<void>;
   readonly evtTaskAdded: NonPostableEvt<Item>;
@@ -15,7 +15,7 @@ type Store = {
 
 
 
-async function getStore(): Promise<void>{
+async function getStore(): Promise<Store>{
   const tasks: Item[] = [];
 
   const simulateDelay = (delay: number)=>{
@@ -44,6 +44,22 @@ async function getStore(): Promise<void>{
     },
     "evtTaskAdded": new Evt(),
   }
+
+  return store;
     
   
 }
+
+const storePr = getStore();
+
+export const evtStoreLoaded: Evt<Store> = new Evt();
+
+storePr.then(
+  store =>{
+    evtStoreLoaded.post(store);
+
+  }
+)
+
+
+

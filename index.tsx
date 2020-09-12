@@ -4,31 +4,19 @@ import Hello from './Hello';
 import './style.css';
 import {useEvt} from "evt/hooks";
 import { SplashScreen } from "./TodoList";
+import {evtStoreLoaded} from "./logic";
 
 
-/*interface AppProps { }
-interface AppState {
-  name: string;
-}*/
 
-/*class App extends Component<AppProps, AppState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: 'React'
-    };
-  }
 
-  render() {
-    return (
-      </>
-    );
-  }
-}*/
+
 
 const App: React.FunctionComponent = ()=>{
   const [isContentLoaded, setIsContentLoaded] = useState(false);
+  useEvt(ctx=>{
+    
 
+  }, [isContentLoaded])
   return(
     <div>sexe</div>
   )
