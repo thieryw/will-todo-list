@@ -5,47 +5,25 @@ import './style.css';
 import {useEvt, useStatefulEvt} from "evt/hooks";
 import {Evt} from "evt";
 
-import { SplashScreen } from "./TodoList";
+import { SplashScreen, TodoList } from "./TodoList";
 import {getStore, Store} from "./logic";
 
 
-/*const evtStore = Evt.from<Store | undefined>(getStore())
-  .toStateful(undefined);*/
 
-const prStore = getStore();
 
+const evtStore = Evt.from(getStore()).toStateful();
 
 const App: React.FunctionComponent = ()=>{
 
-  const [store, setStore] = useState<Store | undefined>(undefined);
+  useStatefulEvt([evtStore]);
 
-  useEffect(()=>{
-
-    let isDone= false;
-
-    prStore.then(store=> {
-
-      if( isDone ){
-        return;
-      }
-
-      setStore(store);
-
-    });
-
-    return ()=> isDone =true;
-
-  },[prStore]);
-
-
-  /*useStatefulEvt([ evtStore ]);*/
 
   return(
     <div>
       {
-        store === undefined ? 
+        evtStore.state === undefined ? 
           <SplashScreen/>:
-          <p>{JSON.stringify(store)}</p>
+          <TodoList store={evtStore.state}/>
       }
     </div>
     
