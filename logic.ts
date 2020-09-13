@@ -8,11 +8,11 @@ type Task = {
 };
 
 
-export type Store = {
+export type Store = Readonly<{
   readonly tasks: readonly Readonly<Task>[];
   readonly addTask: (task: string)=> Promise<void>;
-  readonly evtTaskAdded: NonPostableEvt<readonly Task[]>;
-}
+  readonly evtTaskAdded: NonPostableEvt<Readonly<Task>>;
+}>;
 
 export async function getStore(): Promise<Store>{
   const tasks: Task[] = [];
@@ -28,7 +28,7 @@ export async function getStore(): Promise<Store>{
     tasks,
     "addTask": async description =>{
       
-      await simulateDelay(3000);
+      await simulateDelay(300);
       
       const task: Task = {
         description,
@@ -38,7 +38,7 @@ export async function getStore(): Promise<Store>{
       
       tasks.push(task);
 
-      store.evtTaskAdded.post(store.tasks);
+      store.evtTaskAdded.post(task);
 
     },
     "evtTaskAdded": new Evt(),

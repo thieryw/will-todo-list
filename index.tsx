@@ -5,18 +5,16 @@ import './style.css';
 import {useEvt, useStatefulEvt} from "evt/hooks";
 import {Evt} from "evt";
 
-import { SplashScreen, TodoList } from "./TodoList";
+import { TodoList } from "./TodoList";
 import {getStore, Store} from "./logic";
 
-
-
+const SplashScreen = ()=> <h1>Loading...</h1>
 
 const evtStore = Evt.from(getStore()).toStateful();
 
 const App: React.FunctionComponent = ()=>{
 
   useStatefulEvt([evtStore]);
-
 
   return(
     <div>
