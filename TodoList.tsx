@@ -49,31 +49,23 @@ type TodoListProps = {
 export const TodoList: React.FunctionComponent<TodoListProps> = (props)=>{
   
     const [tasksObj, setTasksObj] = useState({tasks: props.store.tasks});
-    const ctx = Evt.newCtx();
 
-    const newTask = (task: string)=>{
-      
-      props.store.addTask(task);
-      
-      props.store.evtTaskAdded.attach(ctx, ()=>{
+    useEvt(ctx =>{
+      props.store.evtTaskAdded.attach(ctx, tasks=>{
+        setTasksObj({tasks});
         
-        setTasksObj({"tasks": props.store.tasks});
-        
-        ctx.done();
-      
-      });
-
-    }
+      })
+    },[]);
 
 
   
 
   return(
     <div>
-      <TaskInput newTask={newTask}/>
+      <TaskInput newTask={props.store.addTask}/>
       <ul>
         {
-          tasksObj.tasks.map(task => <li>{task.description}</li>)
+          tasksObj.tasks.map(task => <li key={task.id}>{task.description}</li>).reverse()
         }
       </ul>
     </div>
