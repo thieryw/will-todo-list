@@ -54,14 +54,16 @@ const Task: React.FunctionComponent<{
   id: number; 
   isComplete: boolean;
   toggleTask: (id: number)=> void;
+  deleteTask: (id: number)=> void;
 }> = props=>{
 
-  const {task, id, isComplete, toggleTask} = props;
+  const {task, id, isComplete, toggleTask, deleteTask} = props;
 
   return (
     <li>
-    <input type="checkbox" onChange={useCallback(()=> toggleTask(id),[])}/>
-    <p>{task}</p>
+    <input type="checkbox" checked={isComplete} onChange={useCallback(()=> toggleTask(id),[])}/>
+    <p className={isComplete ? "complete" : ""}>{task}</p>
+    <p className="deleteButton" onClick={useCallback(()=> deleteTask(id),[])}>X</p>
     </li>
   )
 }
@@ -81,16 +83,25 @@ export const TodoList: React.FunctionComponent<{
   useEvt(
     ctx=> {
         
-        
-
-        store.evtTaskAdded.attach(
-          ctx, 
-          () => {forceUpdate()}
-        );
+      store.evtTaskAdded.attach(
+        ctx, 
+        () => forceUpdate()
+      );
 
     },
     [store]
   );
+
+  useEvt(ctx=>{
+    store.evtToggleTask.attach(ctx, ()=>
+      forceUpdate()
+    )
+    
+  },[store]);
+
+  useEvt(ctx=>{
+    
+  })
 
   return(
     <div>
@@ -103,7 +114,8 @@ export const TodoList: React.FunctionComponent<{
         task={task.description} 
         id={task.id}  
         isComplete={task.isComplete}
-        toggleTask={}
+        toggleTask={store.toogleTask}
+        deleteTask={store.deleteTask}
         />)}
       </ul>
     </div>
