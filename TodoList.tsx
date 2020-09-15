@@ -100,8 +100,10 @@ export const TodoList: React.FunctionComponent<{
   },[store]);
 
   useEvt(ctx=>{
-    
-  })
+    store.evtTaskDeleted.attach(ctx, ()=>
+      forceUpdate()
+    )
+  },[store]);
 
   return(
     <div>

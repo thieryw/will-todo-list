@@ -57,23 +57,29 @@ export async function getStore(): Promise<Store>{
     "toogleTask": async id =>{
       await simulateDelay(300);
       
-      const indexOfTaskToBeToggled = tasks.findIndex(task => task.id === id);
+      const task = tasks.find(task => task.id === id);
+      if(!task){
+        return;
+      }
 
-      const isComplete = tasks[indexOfTaskToBeToggled].isComplete;
-      tasks[indexOfTaskToBeToggled].isComplete = !isComplete;
+      tasks[tasks.indexOf(task)].isComplete = !task.isComplete;
+    
 
-      store.evtToggleTask.post(tasks[indexOfTaskToBeToggled]);
+      store.evtToggleTask.post(task);
+
     },
     
     "deleteTask": async id =>{
       await simulateDelay(300);
       
-      let deletedTask: Task;
-      const indexOfTaskToBeDelete = tasks.findIndex(task => task.id === id);
-      deletedTask = tasks[indexOfTaskToBeDelete];
-      tasks.splice(indexOfTaskToBeDelete, 1);
+      const task = tasks.find(task => task.id === id);
+      if(!task){
+        return;
+      }
+
+      tasks.splice(tasks.indexOf(task), 1);
       
-      store.evtTaskDeleted.post(deletedTask);
+      store.evtTaskDeleted.post(task);
       
     },
     
