@@ -88,11 +88,11 @@ export async function getStore(): Promise<Store>{
       await simulateDelay(300);
 
       const index = tasks.findIndex(task => task.id === id);
-      if(!index){
-        return;
-      }
+    
 
       tasks[index].description = taskStr;
+
+      
 
       store.evtTaskChanged.post(tasks[index]);
     },

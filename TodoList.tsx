@@ -55,14 +55,62 @@ const Task: React.FunctionComponent<{
   isComplete: boolean;
   toggleTask: (id: number)=> void;
   deleteTask: (id: number)=> void;
+  changeTask: (id: number, newTask: string)=> void;
 }> = props=>{
 
-  const {task, id, isComplete, toggleTask, deleteTask} = props;
+  const {task, id, isComplete, toggleTask, deleteTask, changeTask} = props;
+  const [isTaskClicked, setIsTaskClicked] = useState(false);
+  const [newTask, setNewTask] = useState("");
+
+  const handleTaskClick = useCallback(()=>{
+    if(isTaskClicked){
+      return;
+    }
+    setIsTaskClicked(true);
+    
+
+  },[isTaskClicked]);
+
+  const submitNewTask = useCallback((e:React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+
+    if(newTask ===""){
+      return;
+    }
+
+    changeTask(id, newTask);
+
+    setNewTask("");   
+    setIsTaskClicked(false);
+    
+
+
+  },[newTask]);
+ 
+  const handleChange = useCallback((e:React.ChangeEvent<HTMLInputElement>)=>
+    setNewTask(e.target.value)
+    ,[])
 
   return (
     <li>
     <input type="checkbox" checked={isComplete} onChange={useCallback(()=> toggleTask(id),[])}/>
-    <p className={isComplete ? "complete" : ""}>{task}</p>
+    {
+      (()=>{
+        if(!isTaskClicked){
+          return <p onClick={handleTaskClick} className={isComplete ? "complete" : ""}>{task}</p>;
+
+        }
+
+        return <form className="taskForm" onSubmit={submitNewTask}>
+        <input 
+          type="text" 
+          value={newTask} 
+          onChange={handleChange}/>
+
+        </form>;
+        
+      })()
+    }
     <p className="deleteButton" onClick={useCallback(()=> deleteTask(id),[])}>X</p>
     </li>
   )
@@ -105,6 +153,12 @@ export const TodoList: React.FunctionComponent<{
     )
   },[store]);
 
+  useEvt(ctx=>{
+    store.evtTaskChanged.attach(ctx, ()=>
+      forceUpdate()
+    )
+  }, [store]);
+
   return(
     <div>
       
@@ -118,6 +172,7 @@ export const TodoList: React.FunctionComponent<{
         isComplete={task.isComplete}
         toggleTask={store.toogleTask}
         deleteTask={store.deleteTask}
+        changeTask={store.changeTask}
         />).reverse()}
       </ul>
     </div>
