@@ -15,7 +15,13 @@ export type Store = Readonly<{
 }>;
 
 export async function getStore(): Promise<Store>{
-  const tasks: Task[] = [];
+  const tasks: Task[] = [
+    {
+      "description": "learn everything",
+      "id": -1,
+      "isComplete": false,
+    }
+  ];
 
   const simulateDelay = (delay: number)=>{
     return new Promise<void>(resolve => setTimeout(resolve, delay));
@@ -29,6 +35,7 @@ export async function getStore(): Promise<Store>{
     "addTask": async description =>{
       
       await simulateDelay(300);
+      console.log("ok");
       
       const task: Task = {
         description,

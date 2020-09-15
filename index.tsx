@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { render } from 'react-dom';
-import Hello from './Hello';
+
 import './style.css';
 import {useEvt, useStatefulEvt} from "evt/hooks";
 import {Evt} from "evt";

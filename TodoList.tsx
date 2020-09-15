@@ -17,22 +17,33 @@ const TaskInput: React.FunctionComponent<{
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>)=>{
       e.preventDefault();
+      
+   
       if(textInput === ""){
+        
         return;
       }
+
       addTask(textInput);
+   
       setTextInput("");
 
     }, 
-    [ addTask ]
+    [ addTask, textInput ]
   );
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
+    
+    setTextInput(e.target.value);
+    console.log(textInput);
+  }, [textInput]);
 
   return (
     <form onSubmit={handleSubmit}>
       <input 
         type="text" 
         value={textInput} 
-        onChange={useCallback(({target})=> setTextInput(target.value),[])}
+        onChange={handleChange}
       />
       <input type="submit"/>
     
@@ -53,7 +64,7 @@ export const TodoList: React.FunctionComponent<{
 
         store.evtTaskAdded.attach(
           ctx, 
-          () => forceUpdate() 
+          () => forceUpdate()
         );
 
     },
@@ -62,7 +73,7 @@ export const TodoList: React.FunctionComponent<{
 
   return(
     <div>
-      <TaskInput newTask={props.store.addTask}/>
+      <TaskInput newTask={store.addTask}/>
       <ul>
         {store.tasks.map(task => <li key={task.id}>{task.description}</li>).reverse()}
       </ul>
