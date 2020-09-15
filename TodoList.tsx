@@ -47,6 +47,26 @@ const TaskInput: React.FunctionComponent<{
   )
 }
 
+
+
+const Task: React.FunctionComponent<{
+  task: string; 
+  id: number; 
+  isComplete: boolean;
+  toggleTask: (id: number)=> void;
+}> = props=>{
+
+  const {task, id, isComplete, toggleTask} = props;
+
+  return (
+    <li>
+    <input type="checkbox" onChange={useCallback(()=> toggleTask(id),[])}/>
+    <p>{task}</p>
+    </li>
+  )
+}
+
+
 export const TodoList: React.FunctionComponent<{
     store: Store;
 }> = props=>{
@@ -54,7 +74,7 @@ export const TodoList: React.FunctionComponent<{
   const { store } = props;
 
   const [,forceUpdate]= useReducer(x=>x+1, 0);
-  const [isLoading, setIsLoading] = useState(false);
+
   
 
 
@@ -76,9 +96,15 @@ export const TodoList: React.FunctionComponent<{
     <div>
       
       <TaskInput newTask={store.addTask}/>
-      <p>{isLoading ? "loading": "notLoading"}</p>
+      
       <ul>
-        {store.tasks.map(task => <li key={task.id}>{task.description}</li>).reverse()}
+        {store.tasks.map(task => 
+        <Task key={task.id} 
+        task={task.description} 
+        id={task.id}  
+        isComplete={task.isComplete}
+        toggleTask={}
+        />)}
       </ul>
     </div>
 

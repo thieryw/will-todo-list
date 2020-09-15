@@ -11,7 +11,9 @@ type Task = {
 export type Store = Readonly<{
   readonly tasks: readonly Readonly<Task>[];
   readonly addTask: (task: string)=> Promise<void>;
+  readonly toogleTask: (id: number)=> Promise<void>;
   readonly evtTaskAdded: NonPostableEvt<Readonly<Task>>;
+  readonly evtToggleTask: NonPostableEvt<Readonly<Task>>;
 }>;
 
 export async function getStore(): Promise<Store>{
@@ -48,7 +50,21 @@ export async function getStore(): Promise<Store>{
       store.evtTaskAdded.post(task);
 
     },
+    "toogleTask": async id =>{
+      await simulateDelay(300);
+      let changedTask: Task;
+      tasks.forEach(task=>{
+        if(task.id !== id){
+          return;
+        }
+        task.isComplete = !task.isComplete;
+        changedTask = task;
+      })
+
+      store.evtToggleTask.post(changedTask);
+    },
     "evtTaskAdded": new Evt(),
+    "evtToggleTask": new Evt(),
   }
 
   await simulateDelay(3000);

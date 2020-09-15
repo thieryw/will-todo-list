@@ -2,7 +2,7 @@ h1, p {
   font-family: Lato;
 }
 
-ul li p{
+ul li .deleteButton{
   display: inline;
   position: absolute;
   right: 5px;
@@ -10,6 +10,9 @@ ul li p{
 
   
 
+}
+p{
+  display: inline;
 }
 
 ul li p:hover{
@@ -31,4 +34,11 @@ ul li{
 
 ul{
   list-style-type: none;
+}
+
+.complete{
+  text-decoration: line-through;
+}
+.taskForm{
+  display: inline;
 }
