@@ -32,18 +32,14 @@ const TaskInput: React.FunctionComponent<{
     [ addTask, textInput ]
   );
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
-    
-    setTextInput(e.target.value);
-    console.log(textInput);
-  }, [textInput]);
+  
 
   return (
     <form onSubmit={handleSubmit}>
       <input 
         type="text" 
         value={textInput} 
-        onChange={handleChange}
+        onChange={useCallback(({target})=> setTextInput(target.value),[textInput])}
       />
       <input type="submit"/>
     
