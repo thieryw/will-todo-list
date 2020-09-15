@@ -35,7 +35,7 @@ export async function getStore(): Promise<Store>{
     "addTask": async description =>{
       
       await simulateDelay(300);
-      console.log("ok");
+      
       
       const task: Task = {
         description,

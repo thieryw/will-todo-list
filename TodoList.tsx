@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useReducer} from "react";
+import React, {useState, useCallback, useReducer, useEffect} from "react";
 import {Store} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
@@ -39,7 +39,7 @@ const TaskInput: React.FunctionComponent<{
       <input 
         type="text" 
         value={textInput} 
-        onChange={useCallback(({target})=> setTextInput(target.value),[textInput])}
+        onChange={useCallback(({target})=> setTextInput(target.value),[])}
       />
       <input type="submit"/>
     
@@ -54,13 +54,18 @@ export const TodoList: React.FunctionComponent<{
   const { store } = props;
 
   const [,forceUpdate]= useReducer(x=>x+1, 0);
+  const [isLoading, setIsLoading] = useState(false);
+  
+
 
   useEvt(
     ctx=> {
+        
+        
 
         store.evtTaskAdded.attach(
           ctx, 
-          () => forceUpdate()
+          () => {forceUpdate()}
         );
 
     },
@@ -69,7 +74,9 @@ export const TodoList: React.FunctionComponent<{
 
   return(
     <div>
+      
       <TaskInput newTask={store.addTask}/>
+      <p>{isLoading ? "loading": "notLoading"}</p>
       <ul>
         {store.tasks.map(task => <li key={task.id}>{task.description}</li>).reverse()}
       </ul>
