@@ -13,10 +13,12 @@ export type Store = Readonly<{
   readonly addTask: (task: string)=> Promise<void>;
   readonly toogleTask: (id: number)=> Promise<void>;
   readonly deleteTask: (id: number)=> Promise<void>;
+  readonly changeTask: (id: number, newTask: string)=> Promise<void>;
   
   readonly evtTaskAdded: NonPostableEvt<Readonly<Task>>;
   readonly evtToggleTask: NonPostableEvt<Readonly<Task>>;
   readonly evtTaskDeleted: NonPostableEvt<Readonly<Task>>;
+  readonly evtTaskChanged: NonPostableEvt<Readonly<Task>>;
 }>;
 
 export async function getStore(): Promise<Store>{
@@ -82,10 +84,23 @@ export async function getStore(): Promise<Store>{
       store.evtTaskDeleted.post(task);
       
     },
+    "changeTask": async (id, taskStr) =>{
+      await simulateDelay(300);
+
+      const index = tasks.findIndex(task => task.id === id);
+      if(!index){
+        return;
+      }
+
+      tasks[index].description = taskStr;
+
+      store.evtTaskChanged.post(tasks[index]);
+    },
     
     "evtTaskAdded": new Evt(),
     "evtToggleTask": new Evt(),
     "evtTaskDeleted": new Evt(),
+    "evtTaskChanged": new Evt(),
   }
 
   await simulateDelay(3000);

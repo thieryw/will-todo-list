@@ -118,7 +118,7 @@ export const TodoList: React.FunctionComponent<{
         isComplete={task.isComplete}
         toggleTask={store.toogleTask}
         deleteTask={store.deleteTask}
-        />)}
+        />).reverse()}
       </ul>
     </div>
 
