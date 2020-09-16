@@ -1,12 +1,12 @@
 import React, {useState, useCallback, useReducer, useEffect} from "react";
-import {Store, Task} from "./logic";
+import {Store} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
 import {Spinner} from "./Spinner";
 
 
-export const TaskComponent: React.FunctionComponent<{
-  task: Task;
+export const Task: React.FunctionComponent<{
+  task: Store["tasks"][number];
   store: Pick<
     Store,
     "changeTask" |

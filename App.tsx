@@ -3,7 +3,7 @@ import {Store} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
 import {NewTaskForm} from "./NewTaskForm";
-import {TaskComponent} from "./TaskComponent";
+import {Task} from "./Task";
 
 
 
@@ -47,7 +47,7 @@ export const App: React.FunctionComponent<{
       
       <ul>
         {store.tasks.map(task => 
-        <TaskComponent key={task.id} 
+        <Task key={task.id} 
           store={store}
           task={task}
         />).reverse()}

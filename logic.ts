@@ -101,7 +101,7 @@ export async function getStore(): Promise<Store>{
     "evtTaskUpdated": new Evt(),
   }
 
-  await simulateDelay(3000);
+  await simulateDelay(1000);
 
   return store;
     
