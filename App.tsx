@@ -3,7 +3,7 @@ import {Store} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
 import {NewTaskForm} from "./NewTaskForm";
-import {Task} from "./Task";
+import {TaskComponent} from "./TaskComponent";
 
 
 
@@ -52,7 +52,7 @@ export const App: React.FunctionComponent<{
       
       <ul>
         {store.tasks.map(task => 
-        <Task key={task.id} 
+        <TaskComponent key={task.id} 
         task={task.description} 
         id={task.id}  
         isComplete={task.isComplete}

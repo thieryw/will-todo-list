@@ -1,7 +1,7 @@
 import { Evt, NonPostableEvt, ToPostableEvt } from "evt";
 
 
-type Task = {
+export type Task = {
   description: string;
   id: number;
   isComplete: boolean;
