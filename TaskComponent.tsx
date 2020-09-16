@@ -5,15 +5,17 @@ import {Evt, StatefulEvt} from "evt";
 
 
 export const TaskComponent: React.FunctionComponent<{
-  task: 
-  /*task: string; 
-  id: number; 
-  isComplete: boolean;
-  toggleTask: (id: number)=> void;
-  deleteTask: (id: number)=> void;
-  changeTask: (id: number, newTask: string)=> void;*/
+  task: Task;
+  store: Pick<
+    Store,
+    "changeTask" |
+    "toggleTask"|
+    "evtTaskUpdated"
+  >
+
 }> = props=>{
 
+  const {task, store} = props;
   //const {task, id, isComplete, toggleTask, deleteTask, changeTask} = props;
   const [isTaskClicked, setIsTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState("");
@@ -34,7 +36,7 @@ export const TaskComponent: React.FunctionComponent<{
       return;
     }
 
-    changeTask(id, newTask);
+    store.changeTask(task.id, newTask);
 
     setNewTask("");   
     setIsTaskClicked(false);
@@ -49,7 +51,11 @@ export const TaskComponent: React.FunctionComponent<{
 
   return (
     <li>
-    <input type="checkbox" checked={isComplete} onChange={useCallback(()=> toggleTask(id),[])}/>
+    <input 
+      type="checkbox" 
+      checked={task.isComplete} 
+      onChange={useCallback(()=> store.toggleTask(task.id),[])}
+    />
     {
       
         !isTaskClicked ? 

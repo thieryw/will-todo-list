@@ -11,7 +11,7 @@ export type Task = {
 export type Store = Readonly<{
   tasks: readonly Readonly<Task>[];
   addTask: (task: string)=> Promise<void>;
-  toogleTask: (id: number)=> Promise<void>;
+  toggleTask: (id: number)=> Promise<void>;
   deleteTask: (id: number)=> Promise<void>;
   changeTask: (id: number, newTask: string)=> Promise<void>;
   
@@ -56,7 +56,7 @@ export async function getStore(): Promise<Store>{
 
     },
     
-    "toogleTask": async id =>{
+    "toggleTask": async id =>{
       await simulateDelay(300);
       
       const task = tasks.find(task => task.id === id);
