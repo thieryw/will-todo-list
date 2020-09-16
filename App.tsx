@@ -30,12 +30,7 @@ export const App: React.FunctionComponent<{
     [store]
   );
 
-  useEvt(ctx=>{
-    store.evtTaskUpdated.attach(ctx, 
-      ()=> forceUpdate()
-    )
-
-  },[store])
+  
 
   useEvt(ctx=>{
     store.evtTaskDeleted.attach(ctx, ()=>
@@ -53,12 +48,8 @@ export const App: React.FunctionComponent<{
       <ul>
         {store.tasks.map(task => 
         <TaskComponent key={task.id} 
-        task={task.description} 
-        id={task.id}  
-        isComplete={task.isComplete}
-        toggleTask={store.toogleTask}
-        deleteTask={store.deleteTask}
-        changeTask={store.changeTask}
+          store={store}
+          task={task}
         />).reverse()}
       </ul>
     </div>

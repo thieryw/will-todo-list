@@ -2,6 +2,7 @@ import React, {useState, useCallback, useReducer, useEffect} from "react";
 import {Store, Task} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
+import {Spinner} from "./Spinner";
 
 
 export const TaskComponent: React.FunctionComponent<{
@@ -10,15 +11,17 @@ export const TaskComponent: React.FunctionComponent<{
     Store,
     "changeTask" |
     "toggleTask"|
-    "evtTaskUpdated"
+    "evtTaskUpdated" |
+    "deleteTask"
   >
 
 }> = props=>{
 
   const {task, store} = props;
-  //const {task, id, isComplete, toggleTask, deleteTask, changeTask} = props;
   const [isTaskClicked, setIsTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState("");
+  const [isEventPending, setIsEventPending] = useState(false);
+  const [, forceUpdate] = useReducer(x=> x+1, 0);
 
   const handleTaskClick = useCallback(()=>{
     if(isTaskClicked){
@@ -49,17 +52,44 @@ export const TaskComponent: React.FunctionComponent<{
     setNewTask(e.target.value)
     ,[])
 
+  useEvt(ctx=>{
+
+    store.evtTaskUpdated.attach(ctx, ()=>
+      forceUpdate()    
+    )
+
+  },[task, store]);
+
+
+  const determineIfEventPending = useCallback(async ()=>{
+    
+    setIsEventPending(true);
+    
+    await store.toggleTask(task.id);
+
+    setIsEventPending(false);
+    
+    
+
+  },[isEventPending]);
+
   return (
     <li>
-    <input 
-      type="checkbox" 
-      checked={task.isComplete} 
-      onChange={useCallback(()=> store.toggleTask(task.id),[])}
-    />
+      {
+        !isEventPending ?
+        <input 
+          type="checkbox" 
+          checked={task.isComplete} 
+          onClick={determineIfEventPending}
+          onChange={determineIfEventPending}
+        /> : 
+        <Spinner/>
+
+      }
     {
       
         !isTaskClicked ? 
-          <p onClick={handleTaskClick} className={isComplete ? "complete" : ""}>{task}</p>
+          <p onClick={handleTaskClick} className={task.isComplete ? "complete" : ""}>{task.description}</p>
           :
         <form className="taskForm" onSubmit={submitNewTask}>
           <input 
@@ -71,7 +101,7 @@ export const TaskComponent: React.FunctionComponent<{
         
       
     }
-    <p className="deleteButton" onClick={useCallback(()=> deleteTask(id),[])}>X</p>
+    <p className="deleteButton" onClick={useCallback(()=> store.deleteTask(task.id),[])}>X</p>
     </li>
   )
 }
