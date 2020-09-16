@@ -20,7 +20,7 @@ export const Task: React.FunctionComponent<{
   const {task, store} = props;
   const [isTaskClicked, setIsTaskClicked] = useState(false);
   const [newTask, setNewTask] = useState("");
-  const [isEventPending, setIsEventPending] = useState(false);
+  const [isTaskToggling, setIsTaskToggling] = useState(false);
   const [, forceUpdate] = useReducer(x=> x+1, 0);
 
   const handleTaskClick = useCallback(()=>{
@@ -61,27 +61,26 @@ export const Task: React.FunctionComponent<{
   },[task, store]);
 
 
-  const determineIfEventPending = useCallback(async ()=>{
+  const toggleTaskProxy = useCallback(async ()=>{
     
-    setIsEventPending(true);
+    setIsTaskToggling(true);
     
     await store.toggleTask(task.id);
 
-    setIsEventPending(false);
+    setIsTaskToggling(false);
     
     
 
-  },[isEventPending]);
+  },[isTaskToggling]);
 
   return (
     <li>
       {
-        !isEventPending ?
+        !isTaskToggling ?
         <input 
           type="checkbox" 
           checked={task.isComplete} 
-          onClick={determineIfEventPending}
-          onChange={determineIfEventPending}
+          onChange={toggleTaskProxy}
         /> : 
         <Spinner/>
 
