@@ -5,6 +5,7 @@ import {Evt, StatefulEvt} from "evt";
 import {Spinner} from "./Spinner";
 
 
+
 export const Task: React.FunctionComponent<{
   task: Store["tasks"][number];
   store: Pick<
