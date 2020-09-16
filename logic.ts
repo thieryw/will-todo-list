@@ -9,16 +9,16 @@ type Task = {
 
 
 export type Store = Readonly<{
-  readonly tasks: readonly Readonly<Task>[];
-  readonly addTask: (task: string)=> Promise<void>;
-  readonly toogleTask: (id: number)=> Promise<void>;
-  readonly deleteTask: (id: number)=> Promise<void>;
-  readonly changeTask: (id: number, newTask: string)=> Promise<void>;
+  tasks: readonly Readonly<Task>[];
+  addTask: (task: string)=> Promise<void>;
+  toogleTask: (id: number)=> Promise<void>;
+  deleteTask: (id: number)=> Promise<void>;
+  changeTask: (id: number, newTask: string)=> Promise<void>;
   
-  readonly evtTaskAdded: NonPostableEvt<Readonly<Task>>;
-  readonly evtToggleTask: NonPostableEvt<Readonly<Task>>;
-  readonly evtTaskDeleted: NonPostableEvt<Readonly<Task>>;
-  readonly evtTaskChanged: NonPostableEvt<Readonly<Task>>;
+  evtTaskAdded: NonPostableEvt<Readonly<Task>>;
+  evtTaskDeleted: NonPostableEvt<Readonly<Task>>;
+  evtTaskUpdated: NonPostableEvt<Readonly<{task: Task; updateType: "IS COMPLETE" | "DESCRIPTION"}>>;
+  
 }>;
 
 export async function getStore(): Promise<Store>{
@@ -67,8 +67,7 @@ export async function getStore(): Promise<Store>{
       tasks[tasks.indexOf(task)].isComplete = !task.isComplete;
     
 
-      store.evtToggleTask.post(task);
-
+      store.evtTaskUpdated.post({task, "updateType": "IS COMPLETE"});
     },
     
     "deleteTask": async id =>{
@@ -94,13 +93,12 @@ export async function getStore(): Promise<Store>{
 
       
 
-      store.evtTaskChanged.post(tasks[index]);
+      store.evtTaskUpdated.post({"task": tasks[index], "updateType": "DESCRIPTION"});
     },
     
     "evtTaskAdded": new Evt(),
-    "evtToggleTask": new Evt(),
     "evtTaskDeleted": new Evt(),
-    "evtTaskChanged": new Evt(),
+    "evtTaskUpdated": new Evt(),
   }
 
   await simulateDelay(3000);
