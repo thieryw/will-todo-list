@@ -3,6 +3,7 @@ import {Store} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
 import {Spinner} from "./Spinner";
+import {useToggle} from "./hooks/useToggle";
 
 
 
