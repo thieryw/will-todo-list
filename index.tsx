@@ -5,14 +5,14 @@ import './style.css';
 import {useEvt, useStatefulEvt} from "evt/hooks";
 import {Evt} from "evt";
 
-import { TodoList } from "./TodoList";
+import { App } from "./App";
 import {getStore, Store} from "./logic";
 
 const SplashScreen = ()=> <h1>Loading...</h1>
 
 const evtStore = Evt.from(getStore()).toStateful();
 
-const App: React.FunctionComponent = ()=>{
+const Switcher: React.FunctionComponent = ()=>{
 
   useStatefulEvt([evtStore]);
 
@@ -21,7 +21,7 @@ const App: React.FunctionComponent = ()=>{
       {
         evtStore.state === undefined ? 
           <SplashScreen/>:
-          <TodoList store={evtStore.state}/>
+          <App store={evtStore.state}/>
       }
     </div>
     
@@ -30,4 +30,4 @@ const App: React.FunctionComponent = ()=>{
 
 
 
-render(<App />, document.getElementById('root'));
+render(<Switcher />, document.getElementById('root'));
