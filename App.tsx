@@ -18,25 +18,13 @@ export const App: React.FunctionComponent<{
   
 
 
-  useEvt(
-    ctx=> {
-        
-      store.evtTaskAdded.attach(
-        ctx, 
-        () => forceUpdate()
-      );
 
-    },
-    [store]
-  );
-
-  
-
-  useEvt(ctx=>{
-    store.evtTaskDeleted.attach(ctx, ()=>
+  useEvt(ctx => {
+    Evt.merge(ctx, [store.evtTaskAdded, store.evtTaskDeleted]).attach(()=>
       forceUpdate()
     )
-  },[store]);
+
+  },[store])
 
 
 

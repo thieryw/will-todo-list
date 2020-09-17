@@ -7,12 +7,13 @@ import {Evt, StatefulEvt} from "evt";
 
 
 export const NewTaskForm: React.FunctionComponent<{
-  newTask: (task: string)=> void;
+  newTask: Store["addTask"];
 }> = props =>{
 
   const { newTask: addTask }= props;
 
   const [textInput, setTextInput] = useState("");
+  const [isTaskLoading, setIsTaskLoading] = useState(false);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>)=>{
@@ -24,7 +25,16 @@ export const NewTaskForm: React.FunctionComponent<{
         return;
       }
 
-      addTask(textInput);
+      if(isTaskLoading && textInput !==""){
+        setTextInput("");
+        return;
+      }
+
+      setIsTaskLoading(true);
+
+      addTask(textInput).then(()=>{
+        setIsTaskLoading(false);
+      });
    
       setTextInput("");
 
@@ -42,6 +52,7 @@ export const NewTaskForm: React.FunctionComponent<{
         onChange={useCallback(({target})=> setTextInput(target.value),[])}
       />
       <input type="submit"/>
+      <p>{isTaskLoading ? "Loading..." : ""}</p>
     
     </form>
   )

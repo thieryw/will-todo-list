@@ -41,7 +41,7 @@ export async function getStore(): Promise<Store>{
     tasks,
     "addTask": async description =>{
       
-      await simulateDelay(300);
+      await simulateDelay(3000);
       
       
       const task: Task = {
@@ -71,7 +71,7 @@ export async function getStore(): Promise<Store>{
     },
     
     "deleteTask": async id =>{
-      await simulateDelay(300);
+      await simulateDelay(3000);
       
       const task = tasks.find(task => task.id === id);
       if(!task){
@@ -84,7 +84,7 @@ export async function getStore(): Promise<Store>{
       
     },
     "changeTask": async (id, taskStr) =>{
-      await simulateDelay(300);
+      await simulateDelay(3000);
 
       const index = tasks.findIndex(task => task.id === id);
     

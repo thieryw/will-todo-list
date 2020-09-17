@@ -3,7 +3,6 @@ import {Store} from "./logic";
 import {useEvt} from "evt/hooks";
 import {Evt, StatefulEvt} from "evt";
 import {Spinner} from "./Spinner";
-import {useToggle} from "./hooks/useToggle";
 
 
 
@@ -37,11 +36,17 @@ export const Task: React.FunctionComponent<{
   const submitNewTask = useCallback((e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
 
-    if(newTask ===""){
+    if(newTask ==="" || isTaskToggling && newTask !== ""){
+      setNewTask("");
       return;
     }
 
-    store.changeTask(task.id, newTask);
+    setIsTaskToggling(true);
+   
+
+    store.changeTask(task.id, newTask).then(()=>{
+      setIsTaskToggling(false)
+    });
 
     setNewTask("");   
     setIsTaskClicked(false);
@@ -75,6 +80,18 @@ export const Task: React.FunctionComponent<{
 
   },[isTaskToggling]);
 
+  const deleteTaskProxy = useCallback(()=>{
+    if(isTaskToggling){
+      return;
+    }
+
+    setIsTaskToggling(true);
+
+    store.deleteTask(task.id).then(()=>{
+      setIsTaskToggling(false);
+    })
+  },[isTaskToggling]);
+
   return (
     <li>
       {
@@ -90,19 +107,24 @@ export const Task: React.FunctionComponent<{
     {
       
         !isTaskClicked ? 
-          <p onClick={handleTaskClick} className={task.isComplete ? "complete" : ""}>{task.description}</p>
+          <p onClick={handleTaskClick} className={task.isComplete ? "complete" : ""}>{
+             isTaskToggling ? "" : task.description
+            }
+          </p>
           :
         <form className="taskForm" onSubmit={submitNewTask}>
           <input 
             type="text" 
             value={newTask} 
             onChange={handleChange}
+            autoFocus={true}
+            
           />
         </form>
         
       
     }
-    <p className="deleteButton" onClick={useCallback(()=> store.deleteTask(task.id),[])}>X</p>
+    <p className="deleteButton" onClick={deleteTaskProxy}>X</p>
     </li>
   )
 }
