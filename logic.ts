@@ -4,9 +4,7 @@ type Task = Readonly<{
   isComplete: boolean;
 }>
 
-export type EventHandlers = {
-  onNewTaskAdded: (newTask: Task)=> void;
-}
+
 
 export type Store = Readonly<{
   tasks: readonly Task[];
@@ -15,9 +13,13 @@ export type Store = Readonly<{
 }>
 
 
-export async function getStore(params: {eventHandlers: EventHandlers}): Promise<Store> {
+export async function getStore(): Promise<Store> {
   const tasks: Task[] = [];
   let count = 0;
+
+  const simulateNetworkDelay = ()=>{
+    return new Promise<void>(resolve => setTimeout(resolve, 3000));
+  }
 
   const store: Store = {
     tasks,
@@ -30,12 +32,13 @@ export async function getStore(params: {eventHandlers: EventHandlers}): Promise<
       }
       tasks.push(newTask);
 
-      params.eventHandlers.onNewTaskAdded(newTask);
-
+  
 
 
     }
   }
+
+  await simulateNetworkDelay();
 
   return store;
 

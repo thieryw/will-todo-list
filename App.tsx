@@ -1,24 +1,43 @@
 import React, {useState, useCallback, useEffect, useReducer} from "react";
 
 
-import {EventHandlers, Store, getStore} from "./logic";
+import {Store, getStore} from "./logic";
 
 
-export const eventHandlers: EventHandlers = {
-  "onNewTaskAdded": (task: Store["tasks"][number])=>{
 
+
+
+const TaskForm: React.FunctionComponent<
+  {
+    addNewTask: Store["addNewTask"];
   }
-}
-
-
-const TaskForm: React.FunctionComponent = ()=>{
+> = (props)=>{
   
+  const [textInput, setTextInput] = useState("");
+
+  const handleSubmit = useCallback( async (e: React.FormEvent<HTMLFormElement>)=>{
+    
+    e.preventDefault();
+
+    await props.addNewTask(textInput);
+
+    setTextInput("");
+    
+    
+    
+  },[textInput]);
+
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
+    setTextInput(e.target.value);
+  
+  },[textInput])
   
   
   return(
     
-      <form>
-        <input type="text" />
+      <form onSubmit={handleSubmit}>
+        <input value={textInput} onChange={handleChange} type="text" />
         <input type="submit" />
       </form>
 
@@ -26,10 +45,16 @@ const TaskForm: React.FunctionComponent = ()=>{
   )
 }
 
-export const App: React.FunctionComponent = ()=>{
+export const App: React.FunctionComponent<{
+  store: Store;
+}> = (props)=>{
+  const {store} = props;
+
+  
+  
   return(
     <div>
-      <TaskForm/>
+      <TaskForm addNewTask={store.addNewTask}/>
     </div>
 
   )

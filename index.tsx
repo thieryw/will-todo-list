@@ -5,25 +5,28 @@ import { App, eventHandlers } from "./App";
 
 
 
-export const storePr = getStore({eventHandlers});
+export const storePr = getStore();
 
+const SplashScreen = ()=><h1>Loading...</h1>;
 
 
 const Switcher: React.FunctionComponent = ()=>{
-  let store: Store | undefined;
+  
+  const [store, setStore] = useState(undefined);
+
+  
 
   useEffect(()=>{
-    storePr.then(value=>{
-      store = value;
-    })
+    storePr.then(st=>{
+      setStore(st);
+    });
 
-  },[store])
-  
+  },[store]);
 
   return(
     <div>
       {
-        store === undefined ? "loading" : "ok"
+        store === undefined ? <SplashScreen/> : <App store={store}/>
       }
     </div>
   )
