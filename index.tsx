@@ -1,27 +1,18 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import Hello from './Hello';
-import './style.css';
-import {TodoList} from './TodoList'
+import React, {useEffect, useCallback, useReducer, useState} from "react";
+import {render} from "react-dom";
 
-interface AppProps { }
-interface AppState {
-  name: string;
+
+import { App } from "App";
+
+
+
+
+
+const Switcher: React.FunctionComponent = {
+
 }
 
-class App extends Component<AppProps, AppState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: 'React'
-    };
-  }
 
-  render() {
-    return (
-      <TodoList/>
-    );
-  }
-}
 
-render(<App />, document.getElementById('root'));
+
+render(<Switcher />, document.getElementById('root'));
