@@ -4,7 +4,7 @@ import React, {useState, useCallback, useEffect, useReducer} from "react";
 import {EventHandlers, Store, getStore} from "./logic";
 
 
-const eventHandlers: EventHandlers = {
+export const eventHandlers: EventHandlers = {
   "onNewTaskAdded": (task: Store["tasks"][number])=>{
 
   }

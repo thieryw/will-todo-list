@@ -1,15 +1,32 @@
 import React, {useEffect, useCallback, useReducer, useState} from "react";
 import {render} from "react-dom";
-
-
-import { App } from "App";
-
-
+import {getStore, Store} from "./logic";
+import { App, eventHandlers } from "./App";
 
 
 
-const Switcher: React.FunctionComponent = {
+export const storePr = getStore({eventHandlers});
 
+
+
+const Switcher: React.FunctionComponent = ()=>{
+  let store: Store | undefined;
+
+  useEffect(()=>{
+    storePr.then(value=>{
+      store = value;
+    })
+
+  },[store])
+  
+
+  return(
+    <div>
+      {
+        store === undefined ? "loading" : "ok"
+      }
+    </div>
+  )
 }
 
 
